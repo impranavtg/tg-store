@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./PizZato.png" type="image/x-icon">
+    <link rel="stylesheet" href="./style.css">
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <div class="cart-page">
+    <h1 class="cart-heading">Cart</h1>
+        <table class="cart">
+        <thead class="cartHeader">
+            <th class="name">Name</th>
+            <th class="price">Price</th>
+            <th class="quantity">Quantity</th>
+            <th class="total">Total</th>
+        </thead>
+        <tbody class="cartItems">
+            <td colspan="4" style="text-align: center;">Cart is Empty!!</td>
+        </tbody>
+    </table>
+    <div class="buttons">
+        <button class="order darkBlue"><a href="./index.html#all-items">Add More Items</a></button>
+    <button class="order"><a href="./index.html#order-form">Place Order</a></button>
+    <button class="order darkBlue" onclick="clearAll()" ><a href="./cart.html">Clear All</a></button>
+</div>
+</div>
+    <script src="./script.js"></script>
+</body>
+</html>

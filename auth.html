@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="login.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <section class="container container-visisble">
+
+      <!-- Login form -->
+      <div class="loginform">
+        <h1>Login</h1>
+        <form class="form boxShadow" onsubmit="return validateForm(event,'log')">
+          <div class="email log-email">
+            <input
+              type="email"
+              id="log-email"
+              placeholder="Your Email"
+              required
+            />
+            <span class="err"></span>
+          </div>
+          <div class="password log-password">
+            <input
+              type="password"
+              name="log-password"
+              id="log-password"
+              placeholder="Password"
+              required
+               oninput="validatePassword('log-password')"
+            />
+            <span class="err"></span>
+          </div>
+          <p class="smalltxt">
+            Not registered? <span id="reg">register here</span>
+          </p>
+          <button class="btn" type="submit">Login</button>
+        </form>
+      </div>
+
+      <!-- Signup form -->
+      <div class="signupform">
+        <h1>Sign Up</h1>
+        <form class="form boxShadow" onsubmit="validateForm(event,'reg')">
+          <div class="name reg-name">
+            <input type="text" id="reg-name" placeholder="Your Name" required />
+            <span class="err"></span>
+          </div>
+          <div class="email reg-email">
+            <input
+              type="email"
+              id="reg-email"
+              placeholder="Your Email"
+              required
+            />
+            <span class="err"></span>
+          </div>
+          <div class="password reg-password">
+            <input
+              type="password"
+              name="reg-password"
+              id="reg-password"
+              placeholder="Password"
+              required
+              oninput="validatePassword('reg-password')"
+            />
+            <span class="err"></span>
+          </div>
+          <p class="smalltxt">
+            Already registered? <span id="log">login here</span>
+          </p>
+          <button class="btn" type="submit">Sign Up</button>
+        </form>
+      </div>
+    </section>
+    <script src="./db.js"></script>
+    <script src="./auth.js"></script>
+  </body>
+</html>
