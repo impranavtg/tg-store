@@ -2,6 +2,62 @@ if (localStorage.getItem("authDetails") === null) {
   location.href = "auth.html";
 }
 
+const Offers = [
+  {
+    heading: "Trendy Sneakers",
+    tagline: "Shoes are Boring. Wear Sneakers.",
+    category: "sneakers",
+    src: "./Images/offer-sneakers.png",
+  },
+  {
+    heading: "Varsity Jacket",
+    tagline: "Jackets that make a statement.",
+    category: "jackets",
+    src: "./Images/offer-jacket.png",
+  },
+  {
+    heading: "Summer Shirts",
+    tagline: "Let the Sunlight Shine Through Your Clothes",
+    category: "shirts",
+    src: "./Images/offer-shirts.png",
+  },
+  {
+    heading: "Denims",
+    tagline: "Timeless elegance in every thread",
+    category: "denims",
+    src: "./Images/offer-denim.png",
+  },
+];
+
+let allOffers = document.getElementById("offer-container");
+if (allOffers) {
+   
+  Offers.map((offer, i) => {
+    allOffers.innerHTML += `<div class="slider ${i === 0 ? "active" : ""}">
+       <div class="img">
+         <img src="${offer.src}" alt="${offer.category}" />
+       </div>
+
+       <div class="content">
+         <span>Special Offer!</span>
+         <h3>${offer.heading}</h3>
+         <p>${offer.tagline}</p>
+         <a href="#${offer.category}" class="btn">
+           Shop Now
+         </a>
+       </div>
+     </div>`;
+  });
+    let toggleBtns = document.getElementById("tbtn");
+    for (let i = 0; i < Offers.length; i++) {
+      toggleBtns.innerHTML += `<div class="navbtn ${
+        i === 0 ? "active" : ""
+      }"></div>`;
+    }
+  
+}
+
+
 let slides = document.querySelectorAll(".slider");
 let btns = document.querySelectorAll(".navbtn");
 let navliks = document.querySelectorAll('.navLinks');
@@ -146,9 +202,16 @@ const Items = {
 let allProducts = document.getElementById("allProducts");
 
 if (allProducts) {
+
   allProducts.addEventListener("click", (e) => {
     let product = e.target.id;
-    // console.log(e.target.id);
+    if(product==="")return;
+    if (e.target.nodeName==="BUTTON"){
+      let btnVal=document.getElementById(product);
+      btnVal.textContent="Added!";
+      setTimeout(()=>{
+        btnVal.textContent = "Add To Cart";
+      },500);
     let idx = "";
     let len = product.length;
     let i = len - 1;
@@ -158,11 +221,12 @@ if (allProducts) {
     }
     idx = parseInt(idx);
     let item = product.substring(0, i);
-    console.log(Items[item][idx]);
+
     if (Items[item]) {
       setItems(Items[item][idx]);
       onLoading();
     }
+  }
   });
 
   for (const item in Items) {
@@ -190,103 +254,6 @@ if (allProducts) {
 
 
 
-
-
-
-// let Items = [
-//   {
-//     name: "Grey Sneakers",
-//     price: 1999,
-//     inCart: 0,
-//   },
-//   {
-//     name: "White Sneakers",
-//     price: 1299,
-//     inCart: 0,
-//   },
-//   {
-//     name: "Canvas Sneakers",
-//     price: 1499,
-//     inCart: 0,
-//   },
-//   {
-//     name: "Red Varsity Jacket",
-//     price: 1799,
-//     inCart: 0,
-//   },
-//   {
-//     name: "Blue Varsity Jacket",
-//     price: 1999,
-//     inCart: 0,
-//   },
-//   {
-//     name: "Leather Jacket",
-//     price: 2499,
-//     inCart: 0,
-//   },
-//   {
-//     name: "Floral Shirt",
-//     price: 799,
-//     inCart: 0,
-//   },
-//   {
-//     name: "White Shirt",
-//     price: 999,
-//     inCart: 0,
-//   },
-//   {
-//     name: "Checked Shirt",
-//     price: 499,
-//     inCart: 0,
-//   },
-//   {
-//     name: "Light Blue Denim",
-//     price: 1199,
-//     inCart: 0,
-//   },
-//   {
-//     name: "Black Denim",
-//     price: 1499,
-//     inCart: 0,
-//   },
-//   {
-//     name: "Dark Blue Denim",
-//     price: 1299,
-//     inCart: 0,
-//   },
-// ];
-
-
-// let sneakerItem=document.querySelector("#sneakers .itemContainer");
-// if(sneakerItem){
-// Sneakers.map((item,i)=>{
-//   sneakerItem.innerHTML+=`<div class="products">
-//   <img src="${item.src}" alt="Sneaker">
-//       <h2>${item.name}</h2>
-//   <div class="price">
-//       <h2>₹${item.price}</h2>
-//       <button class="addCart" id="Sneaker-${i}">Add To Cart</button>
-//   </div>
-// </div>`
-// })
-// }
-
-
-// let cart = document.querySelectorAll(".addCart");
-
-// for (let i = 0; i < cart.length; i++) {
-//   cart[i].addEventListener("click", (e) => {
-//     const id=e.target.id;
-//     const idx=parseInt(id.substring(id.length-1,id.length));
-//     const arr=id.substring(0,id.length-2);
-//     if(arr==="Sneaker"){
-//       setItems(Sneakers[idx]);
-//     }
-//     console.log(idx);
-//     // setItems(Items[i]);
-//     onLoading();
-//   });
-// }
 
 const setItems = (item) => {
   let cartItems = JSON.parse(localStorage.getItem("cartItems"));
@@ -316,21 +283,6 @@ const setItems = (item) => {
 
 
 
-
-const calculateTotalCost = () => {
-  let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-  if (cartItems !== null) {
-    let total = 0;
-    for (let i = 0; i < cartItems.length; i++) {
-      total += parseInt(cartItems[i].inCart) * parseInt(cartItems[i].price);
-    }
-    return total;
-  } else {
-    return;
-  }
-}
-
-
 const onLoading = () => {
   let cartItems = localStorage.getItem("cartItems");
   if (cartItems) {
@@ -346,117 +298,7 @@ const onLoading = () => {
 onLoading();
 
 
-// for (let i = 0; i < cart.length; i++) {
-//   cart[i].addEventListener("click", () => {
-//     setItems(Items[i]);
-//     onLoading();
-//   });
-// }
 
-
-const decreaseCart = (i) => {
-  i = parseInt(i);
-  let cartItems = localStorage.getItem("cartItems");
-  cartItems[i].inCart -= 1;
-  if (cartItems[i].inCart <= 0) {
-    cartItems = cartItems.filter((it, idx) => idx !== i);
-  }
-  localStorage.setItem("cartItems", cartItems);
-}
-
-
-
-let length = 0;
-const display = () => {
-  let itemContainer = document.querySelector(".cartItems");
-  let cartItems = localStorage.getItem("cartItems");
-  let cartTotal = calculateTotalCost();
-  cartItems = JSON.parse(cartItems);
-  if (cartItems && itemContainer) {
-    length = cartItems.length;
-    itemContainer.innerHTML = "";
-    let count = 0;
-    cartItems.map((item, i) => {
-      if (item.inCart > 0) count++;
-      itemContainer.innerHTML += item.inCart > 0 ? `
-        
-        <tr class="trow" id="${i}">
-        <td> ${item.name}</td>
-        <td> ₹${item.price}</td>
-        <td><span class="dec">-</span> <span class="val"> ${item.inCart} </span> <span class="inc">+</span></td>
-        <td class="amt"> ₹${item.price * item.inCart}</td>
-        <tr>
-        
-        `: "";
-    });
-    itemContainer.innerHTML += count > 0 ? `<tr" class="totalAmt">
-    <td colspan="2" class="totalPrice">Total Price</td>
-    <td colspan="2"  class="totalPriceVal">₹${cartTotal}</td>
-    </tr>
-    `: `<td colspan="4" style="text-align: center;">Cart is Empty!!</td>`;
-  }
-}
-{/* <tbody class="cartBody">
-</tbody> */}
-display();
-
-const clearAll = () => {
-  localStorage.removeItem("cartItems");
-  location.reload();
-}
-
-
-const increase = document.querySelectorAll(".inc");
-for (let i = 0; i < increase.length; i++) {
-  increase[i]?.addEventListener("click", () => {
-    let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-    cartItems[i].inCart = parseInt(cartItems[i].inCart) + 1;
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    let itemval = document.getElementsByClassName("val")[i];
-    if (itemval) {
-      itemval.textContent = cartItems[i].inCart;
-      let amount = document.getElementsByClassName("amt")[i];
-      amount.textContent = cartItems[i].inCart * cartItems[i].price;
-      let total = document.getElementsByClassName("totalPriceVal")[0];
-      total.textContent = calculateTotalCost();
-    }
-  });
-}
-
-
-
-
-const decrease = document.querySelectorAll(".dec");
-for (let i = 0; i < decrease.length; i++) {
-
-  decrease[i].addEventListener("click", () => {
-    let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-    if (!cartItems) return;
-    cartItems[i].inCart = parseInt(cartItems[i].inCart) - 1;
-    let row = document.querySelectorAll(".trow");
-    if (!row) return;
-    if (cartItems[i].inCart <= 0) {
-      row[i].innerHTML = "";
-      cartItems.splice(i, 1);
-      location.reload();
-    }
-    else {
-      let itemval = document.getElementsByClassName("val")[i];
-      if (itemval) {
-        itemval.textContent = cartItems[i].inCart;
-        let amount = document.getElementsByClassName("amt")[i];
-        amount.textContent = cartItems[i].inCart * cartItems[i].price;
-      }
-    }
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    if (cartItems.length === 0) {
-      document.getElementsByClassName("totalAmt")[0].innerHTML = "";
-      clearAll();
-    }
-    let total = document.getElementsByClassName("totalPriceVal")[0];
-    if (total) total.textContent = calculateTotalCost();
-  });
-}
 
 const logout = () => {
   let user = JSON.parse(localStorage.getItem("authDetails"));

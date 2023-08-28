@@ -247,12 +247,15 @@ section {
     border-radius: 5px;
     background-color: var(--background);
 }
-
+.itemContainer .products .price .addCart:active{
+    transition: 0.4s ease-in;
+}
 .itemContainer .products .price button:hover {
     background-color: var(--sec);
     transition: 0.2s ease-in;
     cursor: pointer;
 }
+
 
 .cart-page{
     padding: 50px 0;
@@ -277,6 +280,23 @@ section {
      -moz-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
      margin: 0 auto;
     
+ }
+ .inc,.dec{
+    padding: 3px 5px;
+    font-size: 25px;
+    background-color: var(--primary);
+    border-radius: 50px;
+ }
+ .inc:hover,.dec:hover{
+    background-color: var(--sec);
+    transition: 0.2s ease-in;
+ }
+ .delete{
+    color: red;
+    font-weight: 700;
+ }
+ .delete:hover{
+    cursor: pointer;
  }
  table{
     border-spacing: 0;
@@ -332,6 +352,7 @@ th{
  }
 .totalPriceVal{
     border-top: 5px solid var(--sec);
+    text-align: center;
 }
 
 .logout{
