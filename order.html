@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Css/style.css">
+    <title>All Orders</title>
+</head>
+<body>
+    <header>
+        <nav>
+          <a href="./index.html" class="logo">🎁TG Store</a>
+          <div class="navInfo">
+            <a href="./index.html#offer" class="navLinks">Offers</a>
+            <a href="./index.html#all-items" class="navLinks">Categories</a>
+            <a href="./index.html#order-form" class="navLinks">Shop Now</a>
+            <a href="./order.html" class="navLinks bold">Orders</a>
+          </div>
+          <div class="navIcon">
+            <a href="./cart.html" id="cart">🛒<span>0</span></a>
+          </div>
+          <div class="logout" onclick="logout()">Logout</div>
+        </nav>
+      </header>
+
+      <div class="order-page">
+        <h1 class="order-heading">All Orders</h1>
+            <div id="allOrders"></div>
+    </div>
+      <script src="./Scripts/db.js"></script>
+      <script src="./Scripts/order.js"></script>
+</body>
+</html>

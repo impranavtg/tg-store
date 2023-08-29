@@ -56,14 +56,13 @@ function  validateForm(e,type) {
     let password=hash(document.querySelector(`#${type}-password`).value,5,10);
     // if email is not valid
     if (!emailRegex.test(email)) {
-      showError("log-email", "Enter a valid Email address");
-      console.log("err");
+      showError(`${type}-email`, "Enter a valid Email address");
       flag = false;
     }
 
     // if password is weak
     if (!validatePassword(`${type}-password`)) {
-      showError(`${type}-password`, "Password is weak!");
+      showError(`${type}-password`, `Password should be a combination of uppercase letters,<br> lowercase letters, numbers, and symbols (atleast 8 chars)`);
       flag = false;
     }
     // if name is not valid (only while registering)
@@ -95,9 +94,8 @@ function validatePassword(id){
     let flag=true;
     let password = document.getElementById(id).value;
     let strongPassRegex=/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/;
-    let mediumPassRegex =/((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))/;
-      if(!strongPassRegex.test(password) && !mediumPassRegex.test(password)){
-        showError(id, "Password is weak!");
+      if(!strongPassRegex.test(password)){
+        showError(id, `Password should be a combination of uppercase letters,<br> lowercase letters, numbers, and symbols (atleast 8 chars)`);
         flag=false;
       }
       else{

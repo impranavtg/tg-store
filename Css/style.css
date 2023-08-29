@@ -1,26 +1,31 @@
 :root {
     --primary: #18f273;
-    --sec:#018136;
-    --background:#2c2a5e;
+    --sec: #018136;
+    --background: #2c2a5e;
     --backgroud-gray: #f2f2f2;
 }
-*{
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
 }
+
 html {
     font-size: 62.5%;
     overflow-x: hidden;
     scroll-behavior: smooth;
 }
-body{
+
+body {
     background-color: var(--backgroud-gray);
 }
+
 a {
     text-decoration: none;
 }
+
 nav {
     position: fixed;
     top: 0;
@@ -60,9 +65,10 @@ nav .navInfo .navLinks.bold {
     border-radius: .5rem;
 }
 
-#cart{
+#cart {
     font-size: 2.6rem;
 }
+
 #cart span {
     font-size: 1.5rem;
     color: var(--sec);
@@ -177,23 +183,23 @@ section {
     text-align: center;
     background-color: white;
     box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
-        -webkit-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
-        -moz-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
-        border-radius: 5px;
-        margin: 10px;
+    -webkit-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
+    -moz-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
+    border-radius: 5px;
+    margin: 10px;
 }
-.subHeadings{
+
+.subHeadings {
     font-size: 3.5rem;
     text-align: center;
     margin: 20px;
     color: var(--sec);
     border-bottom: 5px solid var(--background);
 }
+
 .itemContainer {
-    /* border: 2px solid red; */
-    height: 90vh;
     display: grid;
-    grid-template-rows: repeat(3, 360px);
+    grid-template-rows: auto;
     grid-template-columns: repeat(3, 340px);
     grid-gap: 20px;
     padding: 0 5%;
@@ -214,10 +220,22 @@ section {
     justify-content: center;
     align-items: center;
     gap: 15px;
+    height: 400px;
 }
 
 .itemContainer .products img {
+    padding: 10px;
+    height: 70%;
     width: 90%;
+}
+
+.itemContainer .products .prod-info {
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .itemContainer .products h2 {
@@ -247,9 +265,11 @@ section {
     border-radius: 5px;
     background-color: var(--background);
 }
-.itemContainer .products .price .addCart:active{
+
+.itemContainer .products .price .addCart:active {
     transition: 0.4s ease-in;
 }
+
 .itemContainer .products .price button:hover {
     background-color: var(--sec);
     transition: 0.2s ease-in;
@@ -257,142 +277,256 @@ section {
 }
 
 
-.cart-page{
+.cart-page {
     padding: 50px 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-.cart-heading{
+.order-page{
+    margin: 100px 0px;
     width: 100%;
-        text-align: center;
-        border-bottom: 5px solid var(--sec);
-        margin: 20px 0;
-        font-size:4rem ;
 }
- .cart {
-     width: 80%;
-     height: auto;
-     background-color: white;
-     box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
-     -webkit-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
-     -moz-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
-     margin: 0 auto;
-    
- }
- .inc,.dec{
+.OrderDetails{
+    text-align: center;
+}
+.orderAmt{
+    border-bottom: 5px solid var(--sec);
+}
+.cart-heading,.order-heading {
+    width: 100%;
+    text-align: center;
+    border-bottom: 5px solid var(--sec);
+    margin: 30px 0;
+    font-size: 4rem;
+}
+
+.cart,.orderTable {
+    width: 80%;
+    height: auto;
+    background-color: white;
+    box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
+    -webkit-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
+    -moz-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
+    margin: 0 auto;
+
+}
+
+
+.inc,
+.dec {
     padding: 3px 5px;
     font-size: 25px;
     background-color: var(--primary);
     border-radius: 50px;
- }
- .inc:hover,.dec:hover{
+}
+
+.inc:hover,
+.dec:hover {
     background-color: var(--sec);
     transition: 0.2s ease-in;
- }
- .delete{
+}
+
+.delete {
     color: red;
     font-weight: 700;
- }
- .delete:hover{
+}
+
+.delete:hover {
     cursor: pointer;
- }
- table{
+}
+
+table {
     border-spacing: 0;
- }
-th{
+}
+
+th {
     border: 1px solid gray;
 }
- th,
- td {
-     font-size: 20px;
-     padding: 15px;
-     text-align: left;
+
+th,
+td {
+    font-size: 20px;
+    padding: 15px;
+    text-align: left;
     border-left: 1px solid gray;
     border-right: 1px solid gray;
 
- }
+}
 
- .totalPrice {
-     border-top: 5px solid var(--sec);
- }
+.totalPrice {
+    border-top: 5px solid var(--sec);
+}
 
- .cartHeader {
-     border-bottom: 5px solid var(--sec);
- }
+.cartHeader {
+    border-bottom: 5px solid var(--sec);
+}
 
- .order {
-     text-align: center;
-     padding: 10px 20px;
-     border: none;
-     outline: none;
-     border-radius: 5px;
-     background-color: var(--sec);
-     margin: 20px 10px 0 10px;
-     color: white;
-     font-size: 16px;
- }
+.order {
+    text-align: center;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: var(--sec);
+    margin: 20px 10px 0 10px;
+    color: white;
+    font-size: 16px;
+}
 
 
- .order:hover {
-     background-color: var(--background);
-     cursor: pointer;
-     transition: 0.4s;
- }
-
- .order.darkBlue:hover {
-     background-color: var(--background);
-     cursor: pointer;
-     transition: 0.4s ease-in;
- }
-
- .inc,.dec{
+.order:hover {
+    background-color: var(--background);
     cursor: pointer;
- }
-.totalPriceVal{
+    transition: 0.4s;
+}
+
+.secondary {
+    background-color: var(--background);
+    cursor: pointer;
+    transition: 0.4s ease-in;
+}
+.secondary:hover{
+    background-color: var(--sec);
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.inc,
+.dec {
+    cursor: pointer;
+}
+
+.totalPriceVal {
     border-top: 5px solid var(--sec);
     text-align: center;
 }
-
-.logout{
+.orderPrice,.orderPriceVal{
+    border-bottom: 5px solid var(--sec);
+}
+.logout {
     color: white;
     background-color: var(--sec);
     border-radius: .5rem;
     font-size: 1.8rem;
     padding: .5rem 1rem;
 }
-.logout:hover{
+
+.logout:hover {
     background-color: var(--background);
     transition: 0.2s ease-in;
     cursor: pointer;
 }
- @media (min-width:240px) and (max-width:768px) {
+#order-form{
+    padding: 20px;
+    margin: 0;
+}
+.orderForm{
+    display: flex;
+    justify-content: center;
+    
+    /* gap: 20px; */
+}
+.cartSummary.empty{
+    display: none;
+}
+.cartSummary{
+    height: 400px;
+    width: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+    
+}
 
-     th,
-     td {
-         font-size: 14px;
-         padding: 5px;
-     }
- }
+.formContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    padding: 20px;
+    -moz-box-shadow: 0px 1px 5px 1px rgba(145, 142, 145, 1);
+    box-shadow: 0px 1px 5px 1px rgba(145, 142, 145, 1);
+}
+.inputs{
+    padding: 10px;
+    font-size: 18px;
+    outline: none;
+    width: 400px;
+    margin: 5px;
+    background-color: transparent;
+    border: 1px solid gray;
+    border-radius: 3px;
+}
+.address{
+    width: 812px;
+    height: 150px;
+    resize: none;
+}
+.errors{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.err{
+    color: red;
+    font-size: 16px;
+    font-weight: 600;
+}
+.inputs:focus{
+    border: 1px solid var(--primary);
+}
+.sendMessage{
+    padding: 10px 15px;
+    font-size: 20px;
+    background-color: var(--primary);
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.sendMessage:hover{
+    cursor: pointer;
+    background-color: var(--sec);
+    color: white;
+    transition: 0.3s ease-in;
+}
+.topForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.noOrder{
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    margin: 100px;
+}
+.noOrder-heading{
+    font-size: 40px;
+    color: var(--background);
+}
 
+#allOrders{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+@media (min-width:240px) and (max-width:768px) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    th,
+    td {
+        font-size: 14px;
+        padding: 5px;
+    }
+}

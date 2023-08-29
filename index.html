@@ -1,44 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./Css/style.css" />
-    <title>TG Store</title>
-  </head>
-  <body>
-    <!-- navigation bar -->
-    <header>
-      <nav>
-        <a href="index.html" class="logo">🎁TG Store</a>
-        <div class="navInfo">
-          <a href="#offer" class="navLinks bold">Offers</a>
-          <a href="#all-items" class="navLinks">Categories</a>
-          <!-- <a href="#order-form" class="navLinks">Shop Now</a> -->
-        </div>
-        <div class="navIcon">
-          <a href="./cart.html" id="cart">🛒<span>0</span></a>
-        </div>
-        <div class="logout" onclick="logout()">Logout</div>
-      </nav>
-    </header>
 
-    <!-- offer slider -->
-    <section id="offer" class="offers">
-      <div class="container" id="offer-container">
-        <div class="navBtns" id="tbtn"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./Css/style.css" />
+  <title>TG Store</title>
+</head>
+
+<body>
+  <!-- navigation bar -->
+  <header>
+    <nav>
+      <a href="index.html" class="logo">🎁TG Store</a>
+      <div class="navInfo">
+        <a href="#offer" class="navLinks bold">Offers</a>
+        <a href="#all-items" class="navLinks">Categories</a>
+        <a href="#order-form" class="navLinks">Shop Now</a>
+        <a href="./order.html" class="navLinks">Orders</a>
       </div>
-    </section>
-
-    <!-- best seller items -->
-
-    <section id="all-items">
-      <div class="head">
-        <h1 class="headings">Categories</h1>
+      <div class="navIcon">
+        <a href="./cart.html" id="cart">🛒<span>0</span></a>
       </div>
-      <div id="allProducts"></div>
-    </section>
-    <script src="./Scripts/db.js"></script>
-    <script src="./Scripts/script.js"></script>
-  </body>
+      <div class="logout" onclick="logout()">Logout</div>
+    </nav>
+  </header>
+
+  <!-- offer slider -->
+  <section id="offer" class="offers">
+    <div class="container" id="offer-container">
+      <div class="navBtns" id="tbtn"></div>
+    </div>
+  </section>
+
+  <!-- best seller items -->
+
+  <section id="all-items">
+    <div class="head">
+      <h1 class="headings">Categories</h1>
+    </div>
+    <div id="allProducts"></div>
+  </section>
+
+  <!-- order form -->
+  <section id="order-form">
+    <div class="head">
+      <h1 class="headings">Order Now</h1>
+    </div>
+    <div class="orderForm">
+      <form class="formContainer" onsubmit="return validateOrder(event)">
+        <div class="topForm">
+          <div class="errors name"> <input type="text" id="name" placeholder="Name" name="Name" required class="inputs"><span class="err"></span></div>
+          <div class="errors number"><input type="number" id="number" placeholder="Contact Number" name="Number" required class="inputs" minlength="10"><span class="err"></span></div>
+          
+        </div>
+        <div class="topForm" class="errors state-city">
+          <select name="errors state" onchange="restrictCities(event)" id="state" class="inputs" required>
+            <option value="">--Select State--</option>
+          </select>
+          <select name="errors city" id="city" class="inputs" required>
+            <option value="">--Select City--</option>
+          </select>
+        </div>
+        <div class="errors address"><textarea name="Address" id="address" cols="30" class="inputs address" rows="10" placeholder="Address"
+          required></textarea><span class="err"></span></div>
+        
+        <Button type="submit" class="sendMessage">Place Order</Button>
+      </form>
+      <div id="summary" class="cartSummary empty">
+        <table class="cart">
+          <thead class="cartHeader">
+              <th class="name">Name</th>
+              <th class="price">Price</th>
+              <th class="quantity">Quantity</th>
+              <th class="total" colspan="2">Total</th>
+          </thead>
+          <tbody class="cartItems">
+          </tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+
+
+  <script src="./Scripts/db.js"></script>
+  <script src="./Scripts/script.js"></script>
+</body>
+
 </html>

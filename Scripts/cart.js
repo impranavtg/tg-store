@@ -32,11 +32,10 @@ const display = () => {
         <tr class="trow" id="${i}">
         <td> ${item.name}</td>
         <td> ₹${item.price}</td>
-        <td><span class="dec">-</span> <span class="val"> ${
-          item.inCart
-        } </span> <span class="inc">+</span></td>
+        <td><span class="dec" id="dec-${i}">-</span> <span class="val"> ${item.inCart
+          } </span> <span class="inc" id="inc-${i}" >+</span></td>
         <td class="amt"> ₹${item.price * item.inCart}</td>
-        <td class="delete">Delete</td>
+        <td class="delete"><span id="del-${i}">Delete</span></td>
         <tr>
         
         `
@@ -54,75 +53,79 @@ const display = () => {
 };
 display();
 
+
+
+const cartItems = document.getElementsByClassName("cartItems")[0];
+
+if (cartItems) {
+  cartItems.addEventListener("click", (e) => {
+    console.log(e.target.nodeName);
+    let product = e.target.id;
+    if (product === "") return;
+    if (e.target.nodeName === "SPAN") {
+      let i = product.indexOf('-');
+      if (i === -1) return;
+      let idx = parseInt(product.substring(i + 1));
+      let item = product.substring(0, i);
+      let cartItems = JSON.parse(localStorage.getItem("cartItems"));
+      if (!cartItems) return;
+
+      function deleteItem(idx) {
+        let row = document.querySelectorAll(".trow");
+        if (!row) return;
+        row[idx].innerHTML = "";
+        cartItems.splice(idx, 1);
+        location.reload();
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        if (cartItems.length === 0) {
+          document.getElementsByClassName("totalAmt")[0].innerHTML = "";
+          clearAll();
+        }
+      }
+      if (item === "inc") {
+        cartItems[idx].inCart = parseInt(cartItems[idx].inCart) + 1;
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        let itemval = document.getElementsByClassName("val")[idx];
+        if (itemval) {
+          itemval.textContent = cartItems[idx].inCart;
+          let amount = document.getElementsByClassName("amt")[idx];
+          amount.textContent = cartItems[idx].inCart * cartItems[idx].price;
+
+        }
+      }
+      else if (item === "dec") {
+        cartItems[idx].inCart = parseInt(cartItems[idx].inCart) - 1;
+        let row = document.querySelectorAll(".trow");
+        if (!row) return;
+        if (cartItems[idx].inCart <= 0) {
+          deleteItem(idx);
+        } else {
+          let itemval = document.getElementsByClassName("val")[idx];
+          if (itemval) {
+            itemval.textContent = cartItems[idx].inCart;
+            let amount = document.getElementsByClassName("amt")[idx];
+            amount.textContent = cartItems[idx].inCart * cartItems[idx].price;
+          }
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        }
+      }
+      else if (item === "del") {
+        deleteItem(idx);
+      }
+      let total = document.getElementsByClassName("totalPriceVal")[0];
+      if (total) total.textContent = calculateTotalCost();
+    }
+  })
+}
+
+
+
+
+
 const clearAll = () => {
   localStorage.removeItem("cartItems");
   location.reload();
 };
 
-const increase = document.querySelectorAll(".inc");
-for (let i = 0; i < increase.length; i++) {
-  increase[i]?.addEventListener("click", () => {
-    let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-    cartItems[i].inCart = parseInt(cartItems[i].inCart) + 1;
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    let itemval = document.getElementsByClassName("val")[i];
-    if (itemval) {
-      itemval.textContent = cartItems[i].inCart;
-      let amount = document.getElementsByClassName("amt")[i];
-      amount.textContent = cartItems[i].inCart * cartItems[i].price;
-      let total = document.getElementsByClassName("totalPriceVal")[0];
-      total.textContent = calculateTotalCost();
-    }
-  });
-}
 
-const decrease = document.querySelectorAll(".dec");
-for (let i = 0; i < decrease.length; i++) {
-  decrease[i].addEventListener("click", () => {
-    let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-    if (!cartItems) return;
-    cartItems[i].inCart = parseInt(cartItems[i].inCart) - 1;
-    let row = document.querySelectorAll(".trow");
-    if (!row) return;
-    if (cartItems[i].inCart <= 0) {
-      row[i].innerHTML = "";
-      cartItems.splice(i, 1);
-      location.reload();
-    } else {
-      let itemval = document.getElementsByClassName("val")[i];
-      if (itemval) {
-        itemval.textContent = cartItems[i].inCart;
-        let amount = document.getElementsByClassName("amt")[i];
-        amount.textContent = cartItems[i].inCart * cartItems[i].price;
-      }
-    }
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    if (cartItems.length === 0) {
-      document.getElementsByClassName("totalAmt")[0].innerHTML = "";
-      clearAll();
-    }
-    let total = document.getElementsByClassName("totalPriceVal")[0];
-    if (total) total.textContent = calculateTotalCost();
-  });
-}
 
-const deleteBtns = document.querySelectorAll(".delete");
-for (let i = 0; i < deleteBtns.length; i++) {
-  deleteBtns[i].addEventListener("click", () => {
-    let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-    if (!cartItems) return;
-    let row = document.querySelectorAll(".trow");
-    if (!row) return;
-    console.log(row)
-    row[i].innerHTML = "";
-    cartItems.splice(i, 1);
-    location.reload();
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    if (cartItems.length === 0) {
-      document.getElementsByClassName("totalAmt")[0].innerHTML = "";
-      clearAll();
-    }
-    let total = document.getElementsByClassName("totalPriceVal")[0];
-    if (total) total.textContent = calculateTotalCost();
-  });
-}
