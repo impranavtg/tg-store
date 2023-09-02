@@ -36,14 +36,26 @@ function removeError(cls){
 
 // create hash for password
 
-function hash(str, mul, add) {
-  let n = str.length;
+function hash(str) {
+  // let n = str.length;
+  // let hash = 0;
+  // for (let i = 0; i < n; i++) {
+  //   let char = mul * str.charCodeAt(i) + add;
+  //   hash = hash + char;
+  // }
+  // return hash;
+
   let hash = 0;
-  for (let i = 0; i < n; i++) {
-    let char = mul * str.charCodeAt(i) + add;
-    hash = hash + char;
-  }
-  return hash;
+     
+    if (str.length == 0) return hash;
+     
+    for (i = 0; i < str.length; i++) {
+        char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+     
+    return hash;
 }
 
 // form validation
@@ -53,7 +65,7 @@ function  validateForm(e,type) {
   removeErrors("err");
     let flag = true;
     let email = document.querySelector(`#${type}-email`).value;
-    let password=hash(document.querySelector(`#${type}-password`).value,5,10);
+    let password=hash(document.querySelector(`#${type}-password`).value);
     // if email is not valid
     if (!emailRegex.test(email)) {
       showError(`${type}-email`, "Enter a valid Email address");

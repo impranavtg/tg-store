@@ -17,6 +17,7 @@ if ('indexedDB' in window) {
     objectStore.createIndex("name", "name", { unique: false });
     objectStore.createIndex("email", "email", { unique: true });
     objectStore.createIndex("password", "password", { unique: false });
+    objectStore.createIndex("userType", "userType", { unique: false });
     obS.createIndex("email", "email", { unique: true });
     obS.createIndex("cart", "cart", { unique: false });
     orderObs.createIndex("email", "email", { unique: true });
@@ -50,6 +51,7 @@ async function addUser(user) {
     console.log("Some error occurred!");
   };
   const objectStore = trans.objectStore("users");
+  user.userType="customer";
   const req = await objectStore.add(user);
   req.onsuccess = () => {
     const orderReq = db.transaction("order").objectStore("order").get(user.email);
@@ -64,6 +66,7 @@ async function addUser(user) {
       console.log("Some error occurred!");
     }
     console.log(`New user added, email: ${req.result}`);
+    delete user.password;
     localStorage.setItem("authDetails", JSON.stringify(user));
     location.href = "index.html";
   };
@@ -97,6 +100,10 @@ async function verifyUser(email, password) {
       orderReq.onerror = () => {
         console.log("Some error occurred!");
       }
+      if(user.userType==="admin"){
+        localStorage.setItem("userType",`admin-${user.email}`);
+      }
+      delete user.password;
       localStorage.setItem("authDetails", JSON.stringify(user));
       location.href = "index.html";
       return;
@@ -109,8 +116,7 @@ async function verifyUser(email, password) {
   };
 
   reqCart.onsuccess = () => {
-    if (reqCart) {
-      console.log(reqCart);
+    if (reqCart.result) {
       localStorage.setItem("cartItems", reqCart.result.cartItems);
     }
   }
@@ -175,16 +181,16 @@ async function placeOrder(email, cart) {
   const userReq = await obs.get(email);
 
   userReq.onsuccess = () => {
-    console.log(userReq.result);
+    // console.log(userReq.result);
     if (userReq.result) {
       const orders = userReq.result;
-      console.log(orders);
+      // console.log(orders);
       orders.cart.push(cart);
       const updateRequest = obs.put(orders);
 
       updateRequest.onsuccess = () => {
         localStorage.removeItem("cartItems");
-        location.reload();
+        updateCartSummary();
         alert("Order Placed");
         localStorage.setItem("allOrders", JSON.stringify(orders.cart));
         console.log(`Order Placed, email: ${updateRequest.result}`);
@@ -196,7 +202,11 @@ async function placeOrder(email, cart) {
       arr.push(cart);
       const req = obs.add({ email, cart: arr });
       req.onsuccess = () => {
+        localStorage.removeItem("cartItems");
         console.log(`Order Placed, email: ${req.result}`);
+        updateCartSummary();
+        alert("Order Placed");
+        localStorage.setItem("allOrders", JSON.stringify(req.result.cart));
       };
       req.onerror = (e) => {
         console.log("Some error Occurred");
@@ -209,8 +219,6 @@ async function placeOrder(email, cart) {
 }
 
 
-
-// getAllOrders("pvtg131@gmail.com");
 
 const logout = () => {
   let user = JSON.parse(localStorage.getItem("authDetails"));

@@ -25,7 +25,6 @@ if(allOrders){
 
     let orderItems=document.getElementsByClassName("orderItems")[0];
     if(orderItems){
-        console.log(orderItems);
     orders.map((order,i)=>{
         let idx=i;
         let total=0;

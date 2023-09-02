@@ -31,7 +31,7 @@ const Offers = [
 
 let allOffers = document.getElementById("offer-container");
 if (allOffers) {
-   
+
   Offers.map((offer, i) => {
     allOffers.innerHTML += `<div class="slider ${i === 0 ? "active" : ""}">
        <div class="img">
@@ -48,13 +48,12 @@ if (allOffers) {
        </div>
      </div>`;
   });
-    let toggleBtns = document.getElementById("tbtn");
-    for (let i = 0; i < Offers.length; i++) {
-      toggleBtns.innerHTML += `<div class="navbtn ${
-        i === 0 ? "active" : ""
+  let toggleBtns = document.getElementById("tbtn");
+  for (let i = 0; i < Offers.length; i++) {
+    toggleBtns.innerHTML += `<div class="navbtn ${i === 0 ? "active" : ""
       }"></div>`;
-    }
-  
+  }
+
 }
 
 
@@ -116,6 +115,47 @@ if (slides) {
   repeatSlider();
 }
 
+let url = location.hash;
+if (url) {
+  let page = document.getElementById(url);
+  if (page) {
+    navliks.forEach((nav) => {
+      nav.classList.remove("bold");
+    });
+    page.classList.add("bold");
+  }
+}
+
+
+function decreaseItem(product) {
+  let cartItems = JSON.parse(localStorage.getItem("cartItems"));
+  if (!cartItems) return;
+  let i = -1;
+  for (let j = 0; j < cartItems.length; j++) {
+    if (cartItems[j].identifier === product) {
+      i = j;
+      break;
+    }
+  }
+  if (i === -1) return;
+  cartItems[i].inCart = parseInt(cartItems[i].inCart) - 1;
+  if (cartItems[i].inCart <= 0) {
+        cartItems.splice(i, 1);     
+        let btnVal = document.getElementById(product);
+        btnVal.classList.remove("incDecCart");
+        btnVal.classList.add("addCart");
+        btnVal.innerHTML=`Add To Cart`;
+  }
+  else{
+    let val=document.getElementById(`val-${product}`);
+    if(val)val.innerHTML=cartItems[i].inCart;
+  }
+  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  onLoading();
+  updateCartSummary(cartItems);
+}
+
+
 
 const Items = {
   sneakers: [
@@ -138,22 +178,22 @@ const Items = {
       inCart: 0,
     },
     {
-      name:"Air Jordan",
-      price:6999,
-      src:"https://w7.pngwing.com/pngs/721/19/png-transparent-air-jordan-shoe-nike-sneakers-sneaker-collecting-michael-jordan-white-basketballschuh-outdoor-shoe-thumbnail.png",
-      inCart:0
+      name: "Air Jordan",
+      price: 6999,
+      src: "https://w7.pngwing.com/pngs/721/19/png-transparent-air-jordan-shoe-nike-sneakers-sneaker-collecting-michael-jordan-white-basketballschuh-outdoor-shoe-thumbnail.png",
+      inCart: 0
     },
     {
-      name:"Vans Old Skool",
-      price:2999,
-      src:"https://w7.pngwing.com/pngs/499/173/png-transparent-skate-shoe-sneakers-vans-clothing-footwear-vans-oldskool-white-outdoor-shoe-sneakers-thumbnail.png",
-      inCart:0
+      name: "Vans Old Skool",
+      price: 2999,
+      src: "https://w7.pngwing.com/pngs/499/173/png-transparent-skate-shoe-sneakers-vans-clothing-footwear-vans-oldskool-white-outdoor-shoe-sneakers-thumbnail.png",
+      inCart: 0
     },
     {
-      name:"Converse Chuck Taylor",
-      price:2799,
-      src:"https://w7.pngwing.com/pngs/754/319/png-transparent-converse-chuck-taylor-all-stars-high-top-sneakers-maroon-sneaker-fashion-outdoor-shoe-adidas-thumbnail.png",
-      inCart:0
+      name: "Converse Chuck Taylor",
+      price: 2799,
+      src: "https://w7.pngwing.com/pngs/754/319/png-transparent-converse-chuck-taylor-all-stars-high-top-sneakers-maroon-sneaker-fashion-outdoor-shoe-adidas-thumbnail.png",
+      inCart: 0
     }
   ],
   jackets: [
@@ -176,22 +216,22 @@ const Items = {
       inCart: 0,
     },
     {
-      name:"Bikers Jacket",
-      price:2199,
-      src:"https://w7.pngwing.com/pngs/578/800/png-transparent-leather-jacket-sleeve-jacket-textile-leather-black-thumbnail.png",
-      inCart:0
+      name: "Bikers Jacket",
+      price: 2199,
+      src: "https://w7.pngwing.com/pngs/578/800/png-transparent-leather-jacket-sleeve-jacket-textile-leather-black-thumbnail.png",
+      inCart: 0
     },
     {
-      name:"Puffer Jacket",
-      price:1299,
-      src:"https://w7.pngwing.com/pngs/626/150/png-transparent-jacket-polar-fleece-outerwear-the-north-face-coat-jacket-black-puffer-north-face-thumbnail.png",
-      inCart:0
+      name: "Puffer Jacket",
+      price: 1299,
+      src: "https://w7.pngwing.com/pngs/626/150/png-transparent-jacket-polar-fleece-outerwear-the-north-face-coat-jacket-black-puffer-north-face-thumbnail.png",
+      inCart: 0
     },
     {
-      name:"Denim Jacket",
-      price:1499,
-      src:"https://w7.pngwing.com/pngs/95/820/png-transparent-blue-denim-button-up-jacket-denim-levi-strauss-co-jacket-clothing-jeans-us-silk-straight-denim-jacket-cowboy-textile-material-thumbnail.png",
-      inCart:0
+      name: "Denim Jacket",
+      price: 1499,
+      src: "https://w7.pngwing.com/pngs/95/820/png-transparent-blue-denim-button-up-jacket-denim-levi-strauss-co-jacket-clothing-jeans-us-silk-straight-denim-jacket-cowboy-textile-material-thumbnail.png",
+      inCart: 0
     }
   ],
   shirts: [
@@ -214,22 +254,22 @@ const Items = {
       inCart: 0,
     },
     {
-      name:"Black Shirt",
-      price:1199,
-      src:"https://w7.pngwing.com/pngs/9/1001/png-transparent-black-dress-shirt-t-shirt-dress-shirt-clothing-black-dress-shirt-tshirt-black-formal-wear-thumbnail.png",
-      inCart:0
+      name: "Black Shirt",
+      price: 1199,
+      src: "https://w7.pngwing.com/pngs/9/1001/png-transparent-black-dress-shirt-t-shirt-dress-shirt-clothing-black-dress-shirt-tshirt-black-formal-wear-thumbnail.png",
+      inCart: 0
     },
     {
-      name:"Blue Shirt",
-      price:899,
-      src:"https://w7.pngwing.com/pngs/972/557/png-transparent-blue-dress-shirt-t-shirt-dress-shirt-dress-shirt-tshirt-blue-image-file-formats-thumbnail.png",
-      inCart:0
+      name: "Blue Shirt",
+      price: 899,
+      src: "https://w7.pngwing.com/pngs/972/557/png-transparent-blue-dress-shirt-t-shirt-dress-shirt-dress-shirt-tshirt-blue-image-file-formats-thumbnail.png",
+      inCart: 0
     },
     {
-      name:"Flannel Shirt",
-      price:1399,
-      src:"https://w7.pngwing.com/pngs/395/177/png-transparent-t-shirt-sleeve-flannel-carhartt-t-shirt-blue-tartan-plaid-thumbnail.png",
-      inCart:0
+      name: "Flannel Shirt",
+      price: 1399,
+      src: "https://w7.pngwing.com/pngs/395/177/png-transparent-t-shirt-sleeve-flannel-carhartt-t-shirt-blue-tartan-plaid-thumbnail.png",
+      inCart: 0
     }
   ],
   denims: [
@@ -253,29 +293,40 @@ const Items = {
     }
   ],
 }
+
+
+
 let allProducts = document.getElementById("allProducts");
 
 if (allProducts) {
 
   allProducts.addEventListener("click", (e) => {
     let product = e.target.id;
-    if(product==="")return;
-    if (e.target.nodeName==="BUTTON"){
-      let btnVal=document.getElementById(product);
-      btnVal.textContent="Added!";
-      setTimeout(()=>{
-        btnVal.textContent = "Add To Cart";
-      },300);
-      let i=product.indexOf('-');
-      if(i===-1)return;
-    let idx = parseInt(product.substring(i+1));
-    let item = product.substring(0, i);
-    // console.log(item,idx);
-    if (Items[item]) {
-      setItems(Items[item][idx]);
-      onLoading();
+    if (product === "") return;
+    if (e.target.nodeName === "DIV" || e.target.nodeName === "SPAN") {
+
+      if (product.substring(0, 3) === "dec") {
+        product = product.substring(4);
+        decreaseItem(product);
+        return;
+      }
+      else if (product.substring(0, 3) === "inc") {
+        product = product.substring(4);
+      }
+      console.log(product);
+      let btnVal = document.getElementById(product);
+      let i = product.indexOf('-');
+      if (i === -1) return;
+      let idx = parseInt(product.substring(i + 1));
+      let item = product.substring(0, i);
+      if (Items[item]) {
+        let count=setItems(Items[item][idx], product);
+        onLoading();
+        btnVal.classList.remove("addCart");
+        btnVal.classList.add("incDecCart");
+        btnVal.innerHTML = `<span class="dec" id="dec-${product}">-</span> <span class="val" id="val-${product}"> ${count} </span> <span class="inc" id="inc-${product}">+</span>`
+      }
     }
-  }
   });
 
   for (const item in Items) {
@@ -294,7 +345,7 @@ if (allProducts) {
         <h2>${prod.name}</h2>
     <div class="price">
         <h2>₹${prod.price}</h2>
-        <button class="addCart" id="${item}-${i}">Add To Cart</button>
+        <div id="${item}-${i}" class="addCart">Add To Cart</div>
     </div>
     </div>
 </div>`
@@ -303,37 +354,74 @@ if (allProducts) {
 
 }
 
-let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-if(cartItems){
-  let total=0;
-  let cartSummary=document.getElementsByClassName("cartItems")[0];
-  cartItems.map((item)=>{
-   
-if(cartSummary){
-  cartSummary.innerHTML+=` <tr class="trow"">
-  <td> ${item.name}</td>
-  <td> ₹${item.price}</td>
-  <td><span class="val"> ${item.inCart
-    } </span> </td>
-  <td class="amt"> ₹${item.price * item.inCart}</td>
-  <tr>`
-  document.getElementById("summary").classList.remove("empty");
-  total+=(item.price * item.inCart);
-}
-  });
-  if(cartSummary){
-  cartSummary.innerHTML+=`<tr" class="totalAmt">
-  <td colspan="2" class="totalPrice orderPrice">Total Price</td>
-  <td colspan="3"  class="totalPriceVal orderPriceVal">₹${total}</td>
-  </tr>`;
+
+function updateCartSummary(cartItems){
+  if(!cartItems || cartItems.length===0){
+    document.getElementById("summary").classList.add("empty");
+    return;
+  }
+  let total = 0;
+  let cartSummary = document.getElementsByClassName("cartItems")[0];
+  if (cartSummary) {
+    cartSummary.innerHTML="";
+cartItems.map((item)=>{
+    cartSummary.innerHTML += ` <tr class="trow"">
+<td> ${item.name}</td>
+<td> ₹${item.price}</td>
+<td><span class="val"> ${item.inCart
+      } </span> </td>
+<td class="amt"> ₹${item.price * item.inCart}</td>
+<tr>`
+    document.getElementById("summary").classList.remove("empty");
+    total += (item.price * item.inCart);
+ 
+});
+
+  if(cartItems.length===0){
+    document.getElementById("summary").classList.add("empty");
+  }
+  else{
+    cartSummary.innerHTML += `<tr" class="totalAmt">
+<td colspan="2" class="totalPrice orderPrice">Total Price</td>
+<td colspan="3"  class="totalPriceVal orderPriceVal">₹${total}</td>
+</tr>`;
   }
 
 }
+}
 
-const setItems = (item) => {
+
+{/* <button class="addCart" >Add To Cart</button> */ }
+
+
+
+
+
+let cartItems = localStorage.getItem("cartItems");
+if (cartItems) {
+  cartItems = JSON.parse(cartItems);
+  
+  cartItems.map((item) => {
+
+    let btnVal=document.getElementById(item.identifier);
+    if(btnVal){
+      btnVal.classList.remove("addCart");
+      btnVal.classList.add("incDecCart");
+      btnVal.innerHTML = `<span class="dec" id="dec-${item.identifier}">-</span> <span class="val" id="val-${item.identifier}"> ${item.inCart} </span> <span class="inc" id="inc-${item.identifier}">+</span>`
+    }
+  });
+
+    updateCartSummary(cartItems);
+
+}
+
+
+const setItems = (item, prod) => {
   let cartItems = JSON.parse(localStorage.getItem("cartItems"));
   item.inCart = 1;
+  let count=0;
   if (cartItems !== null) {
+    
     let flag = -1;
     for (let i = 0; i < cartItems.length; i++) {
       if (cartItems[i].name === item.name) {
@@ -342,19 +430,29 @@ const setItems = (item) => {
       }
     }
     if (flag === -1) {
+      item.identifier = prod;
       cartItems.push(item);
+      count=1;
     }
     else {
       cartItems[flag].inCart += 1;
+      count=cartItems[flag].inCart;
     }
   }
   else {
     cartItems = [];
+    item.identifier = prod;
     cartItems.push(item);
+    count=1;
   }
-  
+
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  updateCartSummary(cartItems);
+  return count;
 }
+
+
+
 
 
 
@@ -374,7 +472,7 @@ onLoading();
 
 
 
-const states={
+const states = {
   "Andaman and Nicobar Islands": [
     "Port Blair"
   ],
@@ -1665,23 +1763,23 @@ const states={
 };
 
 
-function restrictCities(e){
-  let state=e.target.value;
-  const citySelect=document.getElementById("city");
-  citySelect.innerHTML=`<option value="">--Select City--</option>`;
-  if(state==="")return;
-  if(!states[state])return;
-  states[state].map((city)=>{
-    citySelect.innerHTML+=`<option value="${city}" id="${city}">${city}</option>`
+function restrictCities(e) {
+  let state = e.target.value;
+  const citySelect = document.getElementById("city");
+  citySelect.innerHTML = `<option value="">--Select City--</option>`;
+  if (state === "") return;
+  if (!states[state]) return;
+  states[state].map((city) => {
+    citySelect.innerHTML += `<option value="${city}" id="${city}">${city}</option>`
   })
 }
 
 
-const stateSelect=document.getElementById("state");
-if(stateSelect){
-for(let state in states){
-  stateSelect.innerHTML+=`<option value="${state}" id="${state}">${state}</option>`;
-} 
+const stateSelect = document.getElementById("state");
+if (stateSelect) {
+  for (let state in states) {
+    stateSelect.innerHTML += `<option value="${state}" id="${state}">${state}</option>`;
+  }
 }
 
 
@@ -1692,59 +1790,62 @@ function showError(cls, message) {
 }
 
 // remove all errors
-function removeErrors(cls){
-    let errors=document.getElementsByClassName(cls);
-    for(let err in errors){
-        err.innerHTML="";
-    }
+function removeErrors(cls) {
+  console.log("called");
+  let errors = document.getElementsByClassName(cls);
+  console.log(errors);
+  for (let err in errors) {
+    err.innerHTML = "";
+  }
 }
 
 // remove an error
-function removeError(cls){
-    let ele=document.getElementsByClassName(cls)[0];
-    ele.getElementsByClassName("err")[0].innerHTML="";
+function removeError(cls) {
+  let ele = document.getElementsByClassName(cls)[0];
+  ele.getElementsByClassName("err")[0].innerHTML = "";
 }
 
 
-function validateOrder(e){
+function validateOrder(e) {
   e.preventDefault();
   removeErrors("err");
-  const name=document.getElementById("name").value;
-  const number=document.getElementById("number").value;
-  const state=document.getElementById("state").value;
-  const city=document.getElementById("city").value;
-  const address=document.getElementById("address").value;
-  let flag=true;
+  const name = document.getElementById("name").value;
+  const number = document.getElementById("number").value;
+  const state = document.getElementById("state").value;
+  const city = document.getElementById("city").value;
+  const address = document.getElementById("address").value;
+  let flag = true;
   let nameRegex = /^[A-Za-z\s]+$/;
-  if(!nameRegex.test(name) || name.length<3){
-      showError("name","Enter a valid Name!");
-      flag=false;
+  if (!nameRegex.test(name) || name.length < 3) {
+    showError("name", "Enter a valid Name!");
+    flag = false;
   }
-  if(number.length!=10){
-    showError("number","Enter a valid Number!");
-      flag=false;
+  if (number.length != 10) {
+    showError("number", "Enter a valid Number!");
+    flag = false;
   }
-  if(address.length<3){
-    showError("address","Enter a valid Address!");
-    flag=false;
+  if (address.length < 3) {
+    showError("address", "Enter a valid Address!");
+    flag = false;
   }
-  if(state==="" || city===""){
-    const message=(state==="" && city==="")?"Please Select State and City":(state==="" && city!=="")?"Please Select State":"Please Select City";
-    showError("state-city",message);
-    flag=false;
+  if (state === "" || city === "") {
+    const message = (state === "" && city === "") ? "Please Select State and City" : (state === "" && city !== "") ? "Please Select State" : "Please Select City";
+    showError("state-city", message);
+    flag = false;
   }
-  
-  if(flag){
-    let cartItems=localStorage.getItem("cartItems");
-    if(!cartItems){
+
+  if (flag) {
+    let cartItems = localStorage.getItem("cartItems");
+    if (!cartItems) {
       alert("Cart is Empty!!");
-      flag=false;
+      flag = false;
     }
-    else{
-      cartItems=JSON.parse(cartItems);
-      const email=JSON.parse(localStorage.getItem("authDetails")).email;
-      console.log(email,cartItems);
-      placeOrder(email,cartItems);
+    else {
+      cartItems = JSON.parse(cartItems);
+      const email = JSON.parse(localStorage.getItem("authDetails")).email;
+      console.log(email, cartItems);
+      removeErrors("err");
+      placeOrder(email, cartItems);
     }
   }
   return flag;
