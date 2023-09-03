@@ -2,6 +2,15 @@ if (localStorage.getItem("authDetails") === null) {
   location.href = "auth.html";
 }
 
+const userType = localStorage.getItem("userType");
+if (userType !== null) {
+  const email = JSON.parse(localStorage.getItem("authDetails")).email;
+  if (userType === `admin-${email}`) {
+    let route = document.getElementsByClassName("navInfo")[0];
+    route.innerHTML += `<a href="./dashboard.html" class="navLinks">Dashboard</a>`;
+  }
+}
+
 const Offers = [
   {
     heading: "Trendy Sneakers",
@@ -94,7 +103,7 @@ btns.forEach((btn, i) => {
   });
 });
 
-if (slides) {
+if (slides.length!=0) {
   const repeatSlider = () => {
     let active = document.getElementsByClassName("active");
     const auto = () => {
@@ -331,8 +340,10 @@ if (allProducts) {
 
   for (const item in Items) {
 
-    allProducts.innerHTML += `<div id="${item}">
+    allProducts.innerHTML += `<div id="${item}" >
+    <div class="product-category">
   <h1 class="subHeadings">${item.charAt(0).toUpperCase() + item.slice(1)}</h1>
+  </div>
   <div class="itemContainer">
 </div>
 </div>`;
@@ -348,7 +359,7 @@ if (allProducts) {
         <div id="${item}-${i}" class="addCart">Add To Cart</div>
     </div>
     </div>
-</div>`
+</div>`;
     })
   }
 
@@ -356,8 +367,10 @@ if (allProducts) {
 
 
 function updateCartSummary(cartItems){
+  let summary=document.getElementById("summary");
+  if(!summary)return;
   if(!cartItems || cartItems.length===0){
-    document.getElementById("summary").classList.add("empty");
+    summary.classList.add("empty");
     return;
   }
   let total = 0;
@@ -391,7 +404,6 @@ cartItems.map((item)=>{
 }
 
 
-{/* <button class="addCart" >Add To Cart</button> */ }
 
 
 
@@ -1850,6 +1862,9 @@ function validateOrder(e) {
   }
   return flag;
 }
+
+
+
 
 
 

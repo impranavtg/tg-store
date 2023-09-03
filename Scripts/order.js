@@ -2,10 +2,18 @@ if (localStorage.getItem("authDetails") === null) {
     location.href = "auth.html";
   }
 
+const userType = localStorage.getItem("userType");
+if (userType !== null) {
+  const email = JSON.parse(localStorage.getItem("authDetails")).email;
+  if (userType === `admin-${email}`) {
+    let route = document.getElementsByClassName("navInfo")[0];
+    route.innerHTML += `<a href="./dashboard.html" class="navLinks">Dashboard</a>`;
+  }
+}
+
 
 const allOrders=document.getElementById("allOrders");
 if(allOrders){
-    const email=JSON.parse(localStorage.getItem("authDetails")).email;
   let orders=localStorage.getItem("allOrders");
   if(orders){
     orders=JSON.parse(orders);

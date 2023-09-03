@@ -192,6 +192,7 @@ async function placeOrder(email, cart) {
         localStorage.removeItem("cartItems");
         updateCartSummary();
         alert("Order Placed");
+        console.log(orders.cart)
         localStorage.setItem("allOrders", JSON.stringify(orders.cart));
         console.log(`Order Placed, email: ${updateRequest.result}`);
       }
@@ -206,7 +207,7 @@ async function placeOrder(email, cart) {
         console.log(`Order Placed, email: ${req.result}`);
         updateCartSummary();
         alert("Order Placed");
-        localStorage.setItem("allOrders", JSON.stringify(req.result.cart));
+        localStorage.setItem("allOrders", JSON.stringify(arr));
       };
       req.onerror = (e) => {
         console.log("Some error Occurred");

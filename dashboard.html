@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./Css/style.css" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    <title>TG Store-Admin</title>
+  </head>
+  <body>
+    <header>
+    <nav>
+      <a href="index.html" class="logo">🎁TG Store</a>
+      <div class="navInfo">
+         <a href="./index.html#offer" class="navLinks">Offers</a>
+            <a href="./index.html#all-items" class="navLinks">Categories</a>
+            <a href="./index.html#order-form" class="navLinks">Shop Now</a>
+            <a href="./order.html" class="navLinks">Orders</a>
+      </div>
+      <div class="navIcon">
+        <a href="./cart.html" id="cart">🛒<span>0</span></a>
+      </div>
+      <div class="logout" onclick="logout()">Logout</div>
+    </nav>
+  </header>
+
+   <section id="offer-form" style="margin: 50px 0px;">
+    <div class="head">
+      <h1 class="headings">Offers</h1>
+    </div>
+    <div class="offerForm">
+      <form class="formContainer" onsubmit="validateOffers(event)">
+        <div class="topForm">
+          <input type="text" id="heading" placeholder="Heading" name="Heading" required class="inputs">
+          <input type="text" id="tagline" placeholder="Tagline" name="Tagline" required class="inputs">
+        </div>
+         <div class="topForm">
+          <select name="errors category" id="category" class="inputs" required>
+            <option value="">--Select Category--</option>
+          </select>
+          <input type="text" id="imageUrl" placeholder="Image Url" name="imageUrl" required class="inputs">
+        </div>
+        
+        
+        <Button type="submit" class="sendMessage">Add Offer</Button>
+      </form>
+      <div id="offers" class="allOffers"></div>
+    </div>
+  </section>
+
+
+  <script src="./Scripts/db.js"></script>
+  <script src="./Scripts/script.js"></script>
+  <script src="./Scripts/dashboard.js"></script>
+  </body>
+</html>
