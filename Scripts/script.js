@@ -6,8 +6,10 @@ const userType = localStorage.getItem("userType");
 if (userType !== null) {
   const email = JSON.parse(localStorage.getItem("authDetails")).email;
   if (userType === `admin-${email}`) {
-    let route = document.getElementsByClassName("navInfo")[0];
-    route.innerHTML += `<a href="./dashboard.html" class="navLinks">Dashboard</a>`;
+    location.href="./dashboard.html";
+    // let route = document.getElementsByClassName("navInfo")[0];
+    // route.innerHTML += `<a href="./offer.html" class="navLinks">Add Offers</a>`;
+    // route.innerHTML+=`<a href="./dashboard.html" class="navLinks">Dash</a>`
   }
 }
 

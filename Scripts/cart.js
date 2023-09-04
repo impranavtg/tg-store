@@ -2,6 +2,15 @@ if (localStorage.getItem("authDetails") === null) {
   location.href = "auth.html";
 }
 
+const userType = localStorage.getItem("userType");
+if (userType !== null) {
+  const email = JSON.parse(localStorage.getItem("authDetails")).email;
+  if (userType === `admin-${email}`) {
+    location.href="./dashboard.html";
+  }
+}
+
+
 const calculateTotalCost = () => {
   let cartItems = JSON.parse(localStorage.getItem("cartItems"));
   if (cartItems !== null) {

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./Css/style.css" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    <title>TG Store-Admin</title>
+  </head>
+  <body>
+
+    <header>
+        <nav>
+          <a href="./dashboard.html" class="logo">🎁TG Store Admin</a>
+          <div class="navInfo">
+            <a href="./offer.html"  class="navLinks bold">Offers</a>
+            <a href="./product.html"  class="navLinks">Products</a>
+            <a href="./admin-order.html" class="navLinks">Orders</a>
+          </div>
+          <div class="logout" onclick="logout()">Logout</div>
+        </nav>
+      </header>
+
+   <section id="offer-form" style="margin: 50px 0px;">
+    <div class="head">
+      <h1 class="headings">Offers</h1>
+    </div>
+    <div class="offerForm">
+      <form class="formContainer" onsubmit="return validateOffers(event)">
+        <div class="topForm">
+          <input type="text" id="heading" placeholder="Heading" name="Heading" required class="inputs">
+          <input type="text" id="tagline" placeholder="Tagline" name="Tagline" required class="inputs">
+        </div>
+         <div class="topForm">
+          <select name="errors category" id="category" class="inputs" required>
+            <option value="">--Select Category--</option>
+          </select>
+          <input type="text" id="imageUrl" placeholder="Image Url" name="imageUrl" required class="inputs">
+        </div>
+        
+        
+        <Button type="submit" class="sendMessage" id="addOffer">Add Offer</Button>
+      </form>
+      <div id="offers" class="allOffers"></div>
+    </div>
+  </section>
+
+
+  <script src="./Scripts/db.js"></script>
+  <!-- <script src="./Scripts/script.js"></script> -->
+  <script src="./Scripts/offer.js"></script>
+  </body>
+</html>

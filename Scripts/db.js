@@ -4,24 +4,31 @@ if ('indexedDB' in window) {
   req.onerror = function () {
     console.log("Some error Occurred:");
   };
-  req.onsuccess = function (e) {
+  req.onsuccess = function () {
     console.info("DB created");
     db = req.result;
   };
-  req.onupgradeneeded = function (e) {
+  req.onupgradeneeded = function () {
     console.info("DB updated");
     db = req.result;
-    const objectStore = db.createObjectStore("users", { keyPath: "email" });
-    const obS = db.createObjectStore("userCart", { keyPath: "email" });
-    const orderObs = db.createObjectStore("order", { keyPath: "email" });
-    objectStore.createIndex("name", "name", { unique: false });
-    objectStore.createIndex("email", "email", { unique: true });
-    objectStore.createIndex("password", "password", { unique: false });
-    objectStore.createIndex("userType", "userType", { unique: false });
-    obS.createIndex("email", "email", { unique: true });
-    obS.createIndex("cart", "cart", { unique: false });
-    orderObs.createIndex("email", "email", { unique: true });
-    orderObs.createIndex("orderDetails", "orderDetails", { unique: false });
+    const userStore = db.createObjectStore("users", { keyPath: "email" });
+    const cartStore = db.createObjectStore("userCart", { keyPath: "email" });
+    const orderStore = db.createObjectStore("order", { keyPath: "email" });
+    const offerStore=db.createObjectStore("offer",{keyPath:"idx"});
+
+    userStore.createIndex("name", "name", { unique: false });
+    userStore.createIndex("email", "email", { unique: true });
+    userStore.createIndex("password", "password", { unique: false });
+    userStore.createIndex("userType", "userType", { unique: false });
+
+    cartStore.createIndex("email", "email", { unique: true });
+    cartStore.createIndex("cart", "cart", { unique: false });
+
+    orderStore.createIndex("email", "email", { unique: true });
+    orderStore.createIndex("orderDetails", "orderDetails", { unique: false });
+
+    offerStore.createIndex("idx","idx",{unique:true});
+    offerStore.createIndex("offer","offer",{unique:false});
   };
 }
 else {
@@ -65,6 +72,16 @@ async function addUser(user) {
     orderReq.onerror = () => {
       console.log("Some error occurred!");
     }
+
+    const offerReq=db.transaction("offer").objectStore("offer").getAll();
+    offerReq.onsuccess=()=>{
+      const offers=offerReq.result;
+      localStorage.setItem("Offers",JSON.stringify(offers));
+    }
+    offerReq.onerror = () => {
+      console.log("Some error occurred!");
+    }
+
     console.log(`New user added, email: ${req.result}`);
     delete user.password;
     localStorage.setItem("authDetails", JSON.stringify(user));
@@ -98,6 +115,14 @@ async function verifyUser(email, password) {
         }
       }
       orderReq.onerror = () => {
+        console.log("Some error occurred!");
+      }
+      const offerReq=db.transaction("offer").objectStore("offer").getAll();
+      offerReq.onsuccess=()=>{
+        const offers=offerReq.result;
+        localStorage.setItem("Offers",JSON.stringify(offers));
+      }
+      offerReq.onerror = () => {
         console.log("Some error occurred!");
       }
       if(user.userType==="admin"){
@@ -219,6 +244,53 @@ async function placeOrder(email, cart) {
   };
 }
 
+// add offer
+
+async function addOffer(offer,prevOffer){
+  console.log(prevOffer);
+  if(!db)return;
+  if(prevOffer){
+    deleteOffer(prevOffer.idx);
+  }
+ const objectStore=await db.transaction("offer","readwrite").objectStore("offer");
+ let Offers={idx:offer.heading+offer.src,offer};
+ const addReq=objectStore.add(Offers);
+ addReq.onsuccess=()=>{
+   const res=addReq.result;
+   if(res){
+    const allOffers=objectStore.getAll();
+    allOffers.onsuccess=()=>{
+      const result=allOffers.result;
+      localStorage.setItem("Offers",JSON.stringify(result));
+      location.reload();
+    }
+   }
+ }
+ addReq.onerror=()=>{
+  console.log("Some Error Occurred!");
+ }
+ 
+}
+
+// delete offer
+
+async function deleteOffer(idx){
+  console.log(idx);
+  if(!db)return;
+  const objectStore=db.transaction("offer","readwrite").objectStore("offer");
+  const deleteReq=objectStore.delete(idx);
+  deleteReq.onsuccess=()=>{
+    const allOffers=objectStore.getAll();
+    allOffers.onsuccess=()=>{
+      const result=allOffers.result;
+      localStorage.setItem("Offers",JSON.stringify(result));
+      location.reload();
+    }
+  }
+  deleteReq.onerror=()=>{
+    console.log("Some Error Occurred!");
+  }
+}
 
 
 const logout = () => {
