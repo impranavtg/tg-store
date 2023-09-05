@@ -309,7 +309,7 @@ nav .navInfo .navLinks.bold {
     font-size: 4rem;
 }
 
-.cart,.orderTable,.offer {
+.cart,.orderTable,.offer,.category,.product {
     width: 100%;
     height: auto;
     background-color: white;
@@ -375,7 +375,7 @@ td {
     border-top: 5px solid var(--sec);
 }
 
-.cartHeader,.offerHeader {
+.cartHeader,.offerHeader,.categoryHeader,.productHeader {
     border-bottom: 5px solid var(--sec);
 }
 
@@ -434,9 +434,10 @@ td {
     transition: 0.2s ease-in;
     cursor: pointer;
 }
-#order-form,#offer-form{
+#order-form,#offer-form,#category-form,#product-form{
     padding: 20px 5px;
-    margin: 0;
+    /* margin: 0; */
+    margin: 50px 0px;
 }
 .orderForm{
     display: flex;
@@ -444,21 +445,31 @@ td {
     
     /* gap: 20px; */
 }
-.offerForm{
-    
+.offerForm,.productForm{
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+.categoryForm{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    
+}
 .cartSummary.empty{
     display: none;
 }
-.cartSummary,.allOffers{
+.cartSummary,.allOffers,.allProducts{
     height: 400px;
     width: 100%;
     overflow-x: hidden;
 }
-
+.row-category{
+    border-top: 2px solid var(--sec);
+    border-bottom: 2px solid var(--sec);
+    text-align: center;
+    font-weight: 700;
+}
 .formContainer{
     /* border: 2px solid red; */
     /* width: 70vw; */

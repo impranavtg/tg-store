@@ -7,65 +7,68 @@ if (userType !== null) {
   const email = JSON.parse(localStorage.getItem("authDetails")).email;
   if (userType === `admin-${email}`) {
     location.href="./dashboard.html";
-    // let route = document.getElementsByClassName("navInfo")[0];
-    // route.innerHTML += `<a href="./offer.html" class="navLinks">Add Offers</a>`;
-    // route.innerHTML+=`<a href="./dashboard.html" class="navLinks">Dash</a>`
   }
 }
 
-const Offers = [
-  {
-    heading: "Trendy Sneakers",
-    tagline: "Shoes are Boring. Wear Sneakers.",
-    category: "sneakers",
-    src: "./Images/offer-sneakers.png",
-  },
-  {
-    heading: "Varsity Jacket",
-    tagline: "Jackets that make a statement.",
-    category: "jackets",
-    src: "./Images/offer-jacket.png",
-  },
-  {
-    heading: "Summer Shirts",
-    tagline: "Let the Sunlight Shine Through Your Clothes",
-    category: "shirts",
-    src: "./Images/offer-shirts.png",
-  },
-  {
-    heading: "Denims",
-    tagline: "Timeless elegance in every thread",
-    category: "denims",
-    src: "./Images/offer-denim.png",
-  },
-];
+// const Offers = [
+//   {
+//     heading: "Trendy Sneakers",
+//     tagline: "Shoes are Boring. Wear Sneakers.",
+//     category: "sneakers",
+//     src: "./Images/offer-sneakers.png",
+//   },
+//   {
+//     heading: "Varsity Jacket",
+//     tagline: "Jackets that make a statement.",
+//     category: "jackets",
+//     src: "./Images/offer-jacket.png",
+//   },
+//   {
+//     heading: "Summer Shirts",
+//     tagline: "Let the Sunlight Shine Through Your Clothes",
+//     category: "shirts",
+//     src: "./Images/offer-shirts.png",
+//   },
+//   {
+//     heading: "Denims",
+//     tagline: "Timeless elegance in every thread",
+//     category: "denims",
+//     src: "./Images/offer-denim.png",
+//   },
+// ];
 
-let allOffers = document.getElementById("offer-container");
-if (allOffers) {
 
-  Offers.map((offer, i) => {
-    allOffers.innerHTML += `<div class="slider ${i === 0 ? "active" : ""}">
+let UserOffers=localStorage.getItem("Offers");
+if(UserOffers!==null){
+  UserOffers=JSON.parse(UserOffers);
+  console.log(UserOffers)
+  let allOffers = document.getElementById("offer-container");
+  if (allOffers) {
+    UserOffers.map((offer, i) => {
+      allOffers.innerHTML += `<div class="slider ${i === 0 ? "active" : ""}">
        <div class="img">
-         <img src="${offer.src}" alt="${offer.category}" />
+         <img src="${offer.offer.src}" alt="${offer.offer.category}" />
        </div>
 
        <div class="content">
          <span>Special Offer!</span>
-         <h3>${offer.heading}</h3>
-         <p>${offer.tagline}</p>
-         <a href="#${offer.category}" class="btn">
+         <h3>${offer.offer.heading}</h3>
+         <p>${offer.offer.tagline}</p>
+         <a href="#${offer.offer.category}" class="btn">
            Shop Now
          </a>
        </div>
      </div>`;
-  });
-  let toggleBtns = document.getElementById("tbtn");
-  for (let i = 0; i < Offers.length; i++) {
-    toggleBtns.innerHTML += `<div class="navbtn ${i === 0 ? "active" : ""
+    });
+    let toggleBtns = document.getElementById("tbtn");
+    for (let i = 0; i < UserOffers.length; i++) {
+      toggleBtns.innerHTML += `<div class="navbtn ${
+        i === 0 ? "active" : ""
       }"></div>`;
+    }
   }
-
 }
+
 
 
 let slides = document.querySelectorAll(".slider");

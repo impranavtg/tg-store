@@ -18,5 +18,47 @@
           <div class="logout" onclick="logout()">Logout</div>
         </nav>
       </header>
+
+<section id="product-form" style="margin: 50px 0px;">
+    <div class="head">
+      <h1 class="headings">Products</h1>
+    </div>
+    <div class="productForm">
+      <form class="formContainer" onsubmit="return validateProducts(event)">
+        <div class="topForm">
+          <input type="text" id="name" placeholder="Product Name" name="Product Name" required class="inputs">
+          <input type="text" id="imageUrl" placeholder="Product Image Url" name="Product Image Url" required class="inputs">
+        </div>
+         <div class="topForm">
+          <select name="errors category" id="product-category" class="inputs" required>
+            <option value="">--Select Category--</option>
+            <input type="number" id="price" placeholder="Price" name="Price" required class="inputs">
+          </select>
+        </div>
+        
+        
+        <Button type="submit" class="sendMessage" id="addProduct">Add Product</Button>
+      </form>
+      <div id="products" class="allProducts"></div>
+    </div>
+  </section>
+
+
+      <section id="category-form">
+    <div class="head">
+      <h1 class="headings">Category</h1>
+    </div>
+    <div class="categoryForm">
+      <form class="formContainer" onsubmit="return validateCategory(event)">
+        <div class="topForm">
+          <input type="text" id="category" placeholder="Category" name="Category" required class="inputs">
+        </div>      
+        <Button type="submit" class="sendMessage" id="addCategory">Add Category</Button>
+      </form>
+      <div id="categories" class="allCategories"></div>
+    </div>
+  </section>
+  <script src="./Scripts/db.js"></script>
+  <script src="./Scripts/product.js"></script>
 </body>
 </html>

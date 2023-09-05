@@ -1,53 +1,72 @@
 var db;
-if ('indexedDB' in window) {
-  const req = indexedDB.open("myDB");
-  req.onerror = function () {
-    console.log("Some error Occurred:");
-  };
-  req.onsuccess = function () {
-    console.info("DB created");
-    db = req.result;
-  };
-  req.onupgradeneeded = function () {
-    console.info("DB updated");
-    db = req.result;
-    const userStore = db.createObjectStore("users", { keyPath: "email" });
-    const cartStore = db.createObjectStore("userCart", { keyPath: "email" });
-    const orderStore = db.createObjectStore("order", { keyPath: "email" });
-    const offerStore=db.createObjectStore("offer",{keyPath:"idx"});
+var Offers;
+var Items;
+var Products;
+if ("indexedDB" in window) {
+  function connectToDb() {
+    const req = indexedDB.open("myDB");
+    req.onerror = function () {
+      console.log("Some error Occurred:");
+    };
+    req.onsuccess = function () {
+      console.info("DB created");
+      db = req.result;
+      getAllOffers();
+      getAllCategories();
+      getAllProducts();
+    };
+    req.onupgradeneeded = function () {
+      console.info("DB updated");
+      db = req.result;
+      const userStore = db.createObjectStore("users", { keyPath: "email" });
+      const cartStore = db.createObjectStore("userCart", { keyPath: "email" });
+      const orderStore = db.createObjectStore("order", { keyPath: "email" });
+      const offerStore = db.createObjectStore("offer", { keyPath: "idx" });
+      const categoryStore = db.createObjectStore("category", { keyPath: "category" });
+      const productStore = db.createObjectStore("product", { keyPath: "category" });
 
-    userStore.createIndex("name", "name", { unique: false });
-    userStore.createIndex("email", "email", { unique: true });
-    userStore.createIndex("password", "password", { unique: false });
-    userStore.createIndex("userType", "userType", { unique: false });
+      userStore.createIndex("name", "name", { unique: false });
+      userStore.createIndex("email", "email", { unique: true });
+      userStore.createIndex("password", "password", { unique: false });
+      userStore.createIndex("userType", "userType", { unique: false });
 
-    cartStore.createIndex("email", "email", { unique: true });
-    cartStore.createIndex("cart", "cart", { unique: false });
+      cartStore.createIndex("email", "email", { unique: true });
+      cartStore.createIndex("cart", "cart", { unique: false });
 
-    orderStore.createIndex("email", "email", { unique: true });
-    orderStore.createIndex("orderDetails", "orderDetails", { unique: false });
+      orderStore.createIndex("email", "email", { unique: true });
+      orderStore.createIndex("orderDetails", "orderDetails", {
+        unique: false,
+      });
 
-    offerStore.createIndex("idx","idx",{unique:true});
-    offerStore.createIndex("offer","offer",{unique:false});
-  };
-}
-else {
+      offerStore.createIndex("idx", "idx", { unique: true });
+      offerStore.createIndex("offer", "offer", { unique: false });
+
+      categoryStore.createIndex("category", "category", { unique: true });
+
+      productStore.createIndex("category", "category", { unique: true });
+      productStore.createIndex("product", "product", { unique: false });
+    };
+  }
+  connectToDb();
+} else {
   alert("IndexDB not supported!");
 }
-
 
 // add user to db
 async function addUser(user) {
   if (!db) return;
-  const userReq = await db.transaction("users").objectStore("users").get(user.email);
+  const userReq = await db
+    .transaction("users")
+    .objectStore("users")
+    .get(user.email);
   userReq.onsuccess = () => {
     if (userReq.result) {
       alert("Email already exists");
       return false;
     }
-  }
+  };
   userReq.onerror = () => {
-    alert("Some error occurred!")
+    alert("Some error occurred!");
   };
   const trans = db.transaction("users", "readwrite");
   trans.oncomplete = function (e) {
@@ -58,29 +77,32 @@ async function addUser(user) {
     console.log("Some error occurred!");
   };
   const objectStore = trans.objectStore("users");
-  user.userType="customer";
+  user.userType = "customer";
   const req = await objectStore.add(user);
   req.onsuccess = () => {
-    const orderReq = db.transaction("order").objectStore("order").get(user.email);
+    const orderReq = db
+      .transaction("order")
+      .objectStore("order")
+      .get(user.email);
     orderReq.onsuccess = () => {
       const orders = orderReq.result;
       console.log(orderReq);
       if (orderReq.result) {
         localStorage.setItem("allOrders", JSON.stringify(orders.cart));
       }
-    }
+    };
     orderReq.onerror = () => {
       console.log("Some error occurred!");
-    }
+    };
 
-    const offerReq=db.transaction("offer").objectStore("offer").getAll();
-    offerReq.onsuccess=()=>{
-      const offers=offerReq.result;
-      localStorage.setItem("Offers",JSON.stringify(offers));
-    }
+    const offerReq = db.transaction("offer").objectStore("offer").getAll();
+    offerReq.onsuccess = () => {
+      const offers = offerReq.result;
+      localStorage.setItem("Offers", JSON.stringify(offers));
+    };
     offerReq.onerror = () => {
       console.log("Some error occurred!");
-    }
+    };
 
     console.log(`New user added, email: ${req.result}`);
     delete user.password;
@@ -98,7 +120,10 @@ async function verifyUser(email, password) {
   const trans = db.transaction("users");
   const objectStore = trans.objectStore("users");
   const req = await objectStore.get(email);
-  const reqCart = await db.transaction("userCart").objectStore("userCart").get(email);
+  const reqCart = await db
+    .transaction("userCart")
+    .objectStore("userCart")
+    .get(email);
   req.onsuccess = () => {
     const user = req.result;
     if (!user) {
@@ -106,27 +131,30 @@ async function verifyUser(email, password) {
       return;
     }
     if (password === user.password) {
-      const orderReq = db.transaction("order").objectStore("order").get(user.email);
+      const orderReq = db
+        .transaction("order")
+        .objectStore("order")
+        .get(user.email);
       orderReq.onsuccess = () => {
         const orders = orderReq.result;
         console.log(orderReq);
         if (orderReq.result) {
           localStorage.setItem("allOrders", JSON.stringify(orders.cart));
         }
-      }
+      };
       orderReq.onerror = () => {
         console.log("Some error occurred!");
-      }
-      const offerReq=db.transaction("offer").objectStore("offer").getAll();
-      offerReq.onsuccess=()=>{
-        const offers=offerReq.result;
-        localStorage.setItem("Offers",JSON.stringify(offers));
-      }
+      };
+      const offerReq = db.transaction("offer").objectStore("offer").getAll();
+      offerReq.onsuccess = () => {
+        const offers = offerReq.result;
+        localStorage.setItem("Offers", JSON.stringify(offers));
+      };
       offerReq.onerror = () => {
         console.log("Some error occurred!");
-      }
-      if(user.userType==="admin"){
-        localStorage.setItem("userType",`admin-${user.email}`);
+      };
+      if (user.userType === "admin") {
+        localStorage.setItem("userType", `admin-${user.email}`);
       }
       delete user.password;
       localStorage.setItem("authDetails", JSON.stringify(user));
@@ -137,14 +165,14 @@ async function verifyUser(email, password) {
   };
 
   req.onerror = (err) => {
-    alert("Some error occurred!")
+    alert("Some error occurred!");
   };
 
   reqCart.onsuccess = () => {
     if (reqCart.result) {
       localStorage.setItem("cartItems", reqCart.result.cartItems);
     }
-  }
+  };
 }
 
 // save cart of user
@@ -152,24 +180,28 @@ async function verifyUser(email, password) {
 async function saveCart(email) {
   let cartItems = localStorage.getItem("cartItems");
   if (!cartItems) {
-    const obs = await db.transaction("userCart", "readwrite").objectStore("userCart");
+    const obs = await db
+      .transaction("userCart", "readwrite")
+      .objectStore("userCart");
     const update = await obs.get(email);
     update.onsuccess = () => {
       if (update.result) {
         obs.delete(email);
       }
-
-    }
+    };
     obs.onerror = () => {
       console.log("Some Error Occured");
-    }
+    };
     localStorage.clear();
     location.href = "auth.html";
 
     return;
   }
   if (!db) return;
-  const req = await db.transaction("userCart", "readwrite").objectStore("userCart").add({ email, cartItems });
+  const req = await db
+    .transaction("userCart", "readwrite")
+    .objectStore("userCart")
+    .add({ email, cartItems });
   req.onsuccess = () => {
     console.log(`New cart saved, email: ${req.result}`);
     localStorage.clear();
@@ -181,22 +213,18 @@ async function saveCart(email) {
     upreq.onsuccess = () => {
       let userCart = upreq.result;
       userCart.cartItems = cartItems;
-      console.log(obs);;
+      console.log(obs);
       const updateRequest = obs.put(userCart);
 
       updateRequest.onsuccess = () => {
-
-        console.log(`Cart updated, email: ${updateRequest.result}`)
+        console.log(`Cart updated, email: ${updateRequest.result}`);
         localStorage.clear();
         location.href = "auth.html";
-
-      }
-
-    }
+      };
+    };
     console.log("Some error Occurred", e);
   };
 }
-
 
 // place order
 
@@ -217,12 +245,11 @@ async function placeOrder(email, cart) {
         localStorage.removeItem("cartItems");
         updateCartSummary();
         alert("Order Placed");
-        console.log(orders.cart)
+        console.log(orders.cart);
         localStorage.setItem("allOrders", JSON.stringify(orders.cart));
         console.log(`Order Placed, email: ${updateRequest.result}`);
-      }
-    }
-    else {
+      };
+    } else {
       console.log(cart);
       let arr = [];
       arr.push(cart);
@@ -238,7 +265,7 @@ async function placeOrder(email, cart) {
         console.log("Some error Occurred");
       };
     }
-  }
+  };
   userReq.onerror = () => {
     console.log("Some error Occurred");
   };
@@ -246,54 +273,184 @@ async function placeOrder(email, cart) {
 
 // add offer
 
-async function addOffer(offer,prevOffer){
+async function addOffer(offer, prevOffer) {
   console.log(prevOffer);
-  if(!db)return;
-  if(prevOffer){
+  if (!db) return;
+  if (prevOffer) {
     deleteOffer(prevOffer.idx);
   }
- const objectStore=await db.transaction("offer","readwrite").objectStore("offer");
- let Offers={idx:offer.heading+offer.src,offer};
- const addReq=objectStore.add(Offers);
- addReq.onsuccess=()=>{
-   const res=addReq.result;
-   if(res){
-    const allOffers=objectStore.getAll();
-    allOffers.onsuccess=()=>{
-      const result=allOffers.result;
-      localStorage.setItem("Offers",JSON.stringify(result));
-      location.reload();
+  const objectStore = await db
+    .transaction("offer", "readwrite")
+    .objectStore("offer");
+  let Offer = { idx: offer.heading + offer.src, offer };
+  const addReq = objectStore.add(Offer);
+  addReq.onsuccess = () => {
+    const res = addReq.result;
+    if (res) {
+      const allOffers = objectStore.getAll();
+      allOffers.onsuccess = () => {
+        Offers = allOffers.result;
+        location.reload();
+      };
     }
-   }
- }
- addReq.onerror=()=>{
-  console.log("Some Error Occurred!");
- }
- 
+  };
+  addReq.onerror = () => {
+    console.log("Some Error Occurred!");
+  };
 }
 
 // delete offer
 
-async function deleteOffer(idx){
+async function deleteOffer(idx) {
   console.log(idx);
-  if(!db)return;
-  const objectStore=db.transaction("offer","readwrite").objectStore("offer");
-  const deleteReq=objectStore.delete(idx);
-  deleteReq.onsuccess=()=>{
-    const allOffers=objectStore.getAll();
-    allOffers.onsuccess=()=>{
-      const result=allOffers.result;
-      localStorage.setItem("Offers",JSON.stringify(result));
+  if (!db) return;
+  const objectStore = db.transaction("offer", "readwrite").objectStore("offer");
+  const deleteReq = objectStore.delete(idx);
+  deleteReq.onsuccess = () => {
+    const allOffers = objectStore.getAll();
+    allOffers.onsuccess = () => {
+      Offers = allOffers.result;
       location.reload();
-    }
-  }
-  deleteReq.onerror=()=>{
+    };
+  };
+  deleteReq.onerror = () => {
     console.log("Some Error Occurred!");
+  };
+}
+
+// get all offers
+
+function getAllOffers() {
+  if (!db) return;
+  const req = db.transaction("offer").objectStore("offer").getAll();
+  req.onsuccess = () => {
+    Offers=req.result;
+    if(localStorage.getItem("userType")!==null)if (typeof displayOffers === "function"){
+      displayOffers(req.result);
+    }
+    else localStorage.setItem("Offers", JSON.stringify(req.result));
+  };
+  req.onerror = () => {
+    console.log("Some Error Occurred!");
+  };
+}
+
+// add category
+
+async function addCategory(category, prevCategory) {
+  console.log(prevCategory);
+  if (!db) return;
+  if (prevCategory) {
+    deleteCategory(prevCategory);
   }
+  const objectStore = await db
+    .transaction("category", "readwrite")
+    .objectStore("category");
+  let Category = {category};
+  const addReq = objectStore.add(Category);
+  addReq.onsuccess = () => {
+    const res = addReq.result;
+    if (res) {
+      const allCategories = objectStore.getAll();
+      allCategories.onsuccess = () => {
+        Items = allCategories.result;
+        location.reload();
+      };
+    }
+  };
+  addReq.onerror = () => {
+    console.log("Some Error Occurred!");
+  };
+}
+
+// delete category
+
+async function deleteCategory(idx) {
+  if (!db) return;
+  const objectStore = db
+    .transaction("category", "readwrite")
+    .objectStore("category");
+  const deleteReq = objectStore.delete(idx);
+  deleteReq.onsuccess = () => {
+    const allCategories = objectStore.getAll();
+    allCategories.onsuccess = () => {
+      Items = allCategories.result;
+      location.reload();
+    };
+  };
+  deleteReq.onerror = () => {
+    console.log("Some Error Occurred!");
+  };
+}
+
+// get all categories
+
+function getAllCategories() {
+  if (!db) return;
+  const req = db.transaction("category").objectStore("category").getAll();
+  req.onsuccess = () => {
+    Items = req.result;
+    if(localStorage.getItem("userType")!==null){
+      if (typeof displayCategories === "function") {
+        displayCategories();
+      }
+     if (typeof availableCategories === "function") availableCategories();
+      
+    } 
+    else localStorage.setItem("Items", JSON.stringify(req.result));
+  };
+  req.onerror = () => {
+    console.log("Some Error Occurred!");
+  };
+}
+
+
+// add product 
+
+async function addProduct(product,prevProduct){
+   console.log(prevProduct);
+  if (!db) return;
+  if (prevProduct) {
+    deleteProduct(prevProduct.category);
+  }
+  const objectStore = await db
+    .transaction("product", "readwrite")
+    .objectStore("product");
+  const addReq = objectStore.add(product);
+  addReq.onsuccess = () => {
+    const res = addReq.result;
+    if (res) {
+      const allProducts = objectStore.getAll();
+      allProducts.onsuccess = () => {
+        Products = allProducts.result;
+        location.reload();
+      };
+    }
+  };
+  addReq.onerror = () => {
+    console.log("Some Error Occurred!");
+  };
+}
+
+// get all products
+function getAllProducts(){
+   if (!db) return;
+   const req = db.transaction("product").objectStore("product").getAll();
+   req.onsuccess = () => {
+     Products= req.result;
+     if (localStorage.getItem("userType") !== null) {
+       if (typeof displayProducts === "function") {
+         displayProducts();
+       }
+     } else localStorage.setItem("Items", JSON.stringify(req.result));
+   };
+   req.onerror = () => {
+     console.log("Some Error Occurred!");
+   };
 }
 
 
 const logout = () => {
   let user = JSON.parse(localStorage.getItem("authDetails"));
   saveCart(user.email);
-}
+};
