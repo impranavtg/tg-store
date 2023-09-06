@@ -23,6 +23,7 @@
       <div class="navIcon">
         <a href="./cart.html" id="cart">🛒<span>0</span></a>
       </div>
+      <div id="username"></div>
       <div class="logout" onclick="logout()">Logout</div>
     </nav>
   </header>
@@ -52,7 +53,7 @@
       <form class="formContainer" onsubmit="return validateOrder(event)">
         <div class="topForm">
           <div class="errors name"> <input type="text" id="name" placeholder="Name" name="Name" required class="inputs"><span class="err"></span></div>
-          <div class="errors number"><input type="number" id="number" placeholder="Contact Number" name="Number" required class="inputs" minlength="10"><span class="err"></span></div>
+          <div class="errors number"><input type="number" id="number" placeholder="Contact Number" name="Number" required class="inputs"><span class="err"></span></div>
           
         </div>
         <div class="topForm" class="errors state-city">

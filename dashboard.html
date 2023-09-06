@@ -15,10 +15,38 @@
             <a href="./product.html"  class="navLinks">Products</a>
             <a href="./admin-order.html" class="navLinks">Orders</a>
           </div>
+          <div id="username"></div>
           <div class="logout" onclick="logout()">Logout</div>
         </nav>
       </header>
+
+      <div class="Analysis">
+      <div class="head" style="margin-top:100px;">
+        <h1 class="headings">Accepted Orders</h1>
+      </div>
+      <div class="OrdersChart">
+        
+        <canvas id="allOrdersChart" class="charts"></canvas>
+        <canvas id="allRevenueChart" class="charts"></canvas>
+      </div>
+    </div>
+
+    <div class="Analysis">
+      <div class="head" style="margin-top:100px;">
+        <h1 class="headings">Product Analysis</h1>
+      </div>
+      <div class="ProductsChart">
+        
+        <canvas id="allCategoriesChart" class="charts"></canvas>
+        <canvas id="allCatRevenueChart" class="charts"></canvas>
+      </div>
+    </div>
+
+
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script src="./Scripts/db.js"></script>
       <script src="./Scripts/dashboard.js"></script>
+      <script src="./Scripts/analysis.js"></script>
 </body>
 </html>

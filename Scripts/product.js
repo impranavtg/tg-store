@@ -175,12 +175,12 @@ function displayProducts(){
             let i=0;
             let flag=true;
             for(let product of Products){
-                if(product.category===item.category){
+                if(product.product.category===item.category){
                     productItems.innerHTML = `<tr class="trow">
-            <td> ${product.name}</td>
-            <td> ${product.category}</td>
-            <td> ₹${product.price}</td>
-            <td> <a href=${product.src}>${product.src.slice(0, 50)}</a></td>
+            <td> ${product.product.name}</td>
+            <td> ${product.product.category}</td>
+            <td> ₹${product.product.price}</td>
+            <td> <a href=${product.product.src}>${product.product.src.slice(0, 50)}</a></td>
             <td><span id="edit-${i}" class="edit">Edit</span><td id="del-${i}" class="delete">Delete</td></td>
             <tr>` + productItems.innerHTML;
                     i++;
@@ -217,13 +217,13 @@ if(products){
         const price = document.getElementById("price");
         const src = document.getElementById("imageUrl");
         let opr = document.getElementById(id);
-        console.log(opr);
+        // console.log(opr.textContent);
         if (opr.textContent === "Edit") {
           if (idx >= Products.length) return;
-          name.value = Products[idx].name;
-          category.value = Products[idx].category;
-          price.value = Products[idx].price;
-          src.value = Products[idx].src;
+          name.value = Products[idx].product.name;
+          category.value = Products[idx].product.category;
+          price.value = Products[idx].product.price;
+          src.value = Products[idx].product.src;
           let btn = document.getElementsByClassName("sendMessage")[0];
           btn.textContent = "Update Product";
           btn.id = `updateProduct-${idx}`;
@@ -243,7 +243,7 @@ if(products){
         let choice = confirm("Are you sure?");
         if (choice) {
           if (idx >= Products.length) return;
-          deleteProduct(ctg,idx);
+          deleteProduct(Products[idx].category);
         } else return;
       }
     });
@@ -325,13 +325,15 @@ if (categories) {
         }
         if (flag) return;
         category.value = idx;
-        let btn = document.getElementsByClassName("sendMessage")[0];
+        let btn = document.getElementsByClassName("sendMessage")[1];
+        console.log(btn);
         btn.textContent = "Update Category";
         btn.id = `updateCategory-${idx}`;
         opr.textContent = "Cancel";
       } else if (opr.textContent === "Cancel") {
         category.value = "";
-        let btn = document.getElementsByClassName("sendMessage")[0];
+        let btn = document.getElementsByClassName("sendMessage")[1];
+        console.log(btn);
         btn.textContent = "Add Category";
         btn.id = "addCategory";
         opr.textContent = "Edit";
@@ -356,7 +358,7 @@ function validateCategory(e) {
   e.preventDefault();
   const category=document.getElementById("category").value;
   if(category.length===0)return false;
-  let opr = document.getElementsByClassName("sendMessage")[0];
+  let opr = document.getElementsByClassName("sendMessage")[1];
   let prevCategory;
   if (opr.id.substring(0, 6) === "update") {
     prevCategory = opr.id.substring(opr.id.indexOf("-") + 1);

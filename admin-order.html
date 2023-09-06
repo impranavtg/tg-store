@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Css/style.css">
-    <title>Admin Order</title>
+    <title>TG Store- Admin</title>
 </head>
 <body>
     <header>
@@ -15,9 +15,29 @@
             <a href="./product.html"  class="navLinks">Products</a>
             <a href="./admin-order.html" class="navLinks bold">Orders</a>
           </div>
+          <div id="username"></div>
           <div class="logout" onclick="logout()">Logout</div>
         </nav>
       </header>
+
+      <div class="order-page">
+        <div class="head">
+          <h1 class="headings">Pending Orders</h1>
+        </div>
+            <div id="pendingOrders"></div>
+
+            <div class="head">
+              <h1 class="headings">Accepted Orders</h1>
+            </div>
+            <div id="allOrders"></div>
+
+            <div class="head">
+              <h1 class="headings">Rejected Orders</h1>
+            </div>
+            <div id="rejectedOrders"></div>
+    </div>
+      <script src="./Scripts/db.js"></script>
+      <script src="./Scripts/admin-order.js"></script>
 
 </body>
 </html>

@@ -2,13 +2,9 @@ if (localStorage.getItem("authDetails") === null) {
     location.href = "auth.html";
   }
 
-// const userType = localStorage.getItem("userType");
-// if (userType !== null) {
-//   const email = JSON.parse(localStorage.getItem("authDetails")).email;
-//   if (userType === `admin-${email}`) {
-    
-//   }
-// }
+
+
+
 
 
 const allOrders=document.getElementById("allOrders");
@@ -34,20 +30,21 @@ if(allOrders){
     if(orderItems){
     orders.map((order,i)=>{
         let idx=i;
-        let total=0;
-        order.map((item)=>{
+        // let total=0;
+        order.cart.map((item)=>{
             orderItems.innerHTML+=`<tr class="trow" id="${i}">
-            ${idx++===i?`<td>${i+1}.</td>`:`<td></td>`}
+            ${idx++ === i ? `<td>#${order.orderNo}</td>` : `<td></td>`}
             <td> ${item.name}</td>
             <td> ₹${item.price}</td>
             <td><span class="val"> ${item.inCart}</td>
             <td class="amt"> ₹${item.price * item.inCart}</td>
             <tr>`;
-            total+=item.price * item.inCart;
+            // total+=item.price * item.inCart;
         });
         orderItems.innerHTML+=`<tr" class="totalAmt">
         <td colspan="2" class="totalPrice orderPrice">Total Price</td>
-        <td colspan="3"  class="totalPriceVal orderPriceVal">₹${total}</td>
+        <td colspan="2"  class="totalPriceVal orderPriceVal">₹${order.totalAmt}</td>
+        <td class=${order.state}>${order.state.toUpperCase()}</td>
         </tr>`
     });
 }
