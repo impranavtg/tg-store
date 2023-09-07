@@ -1840,11 +1840,11 @@ function removeError(cls) {
 function validateOrder(e) {
   e.preventDefault();
   removeErrors("err");
-  const name = document.getElementById("name").value;
+  const name = document.getElementById("name").value.trim();
   const number = document.getElementById("number").value;
   const state = document.getElementById("state").value;
   const city = document.getElementById("city").value;
-  const address = document.getElementById("address").value;
+  const address = document.getElementById("address").value.trim();
   let flag = true;
   let nameRegex = /^[A-Za-z\s]+$/;
   if (!nameRegex.test(name) || name.length < 3) {
@@ -1885,7 +1885,6 @@ function validateOrder(e) {
       document.getElementById("state").value="";
       document.getElementById("city").value="";
       document.getElementById("address").value="";
-      onLoading();
     }
   }
   return flag;

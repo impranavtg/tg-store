@@ -5,7 +5,7 @@ var Products;
 var Orders;
 if ("indexedDB" in window) {
   function connectToDb() {
-    const req = indexedDB.open("myDB");
+    const req = indexedDB.open("myDB",5);
     req.onerror = function () {
       console.log("Some error Occurred:");
     };
@@ -20,33 +20,33 @@ if ("indexedDB" in window) {
     req.onupgradeneeded = function () {
       console.info("DB updated");
       db = req.result;
-      const userStore = db.createObjectStore("users", { keyPath: "email" });
-      const cartStore = db.createObjectStore("userCart", { keyPath: "email" });
-      const orderStore = db.createObjectStore("order", { keyPath: "email" });
-      const offerStore = db.createObjectStore("offer", { keyPath: "idx" });
-      const categoryStore = db.createObjectStore("category", { keyPath: "category" });
-      const productStore = db.createObjectStore("product", { keyPath: "category" });
+      // const userStore = db.createObjectStore("users", { keyPath: "email" });
+      // const cartStore = db.createObjectStore("userCart", { keyPath: "email" });
+      // const orderStore = db.createObjectStore("order", { keyPath: "email" });
+      // const offerStore = db.createObjectStore("offer", { keyPath: "idx" });
+      // const categoryStore = db.createObjectStore("category", { keyPath: "category" });
+      const productsStore = db.createObjectStore("products", { keyPath: "productId" });
 
-      userStore.createIndex("name", "name", { unique: false });
-      userStore.createIndex("email", "email", { unique: true });
-      userStore.createIndex("password", "password", { unique: false });
-      userStore.createIndex("userType", "userType", { unique: false });
+      // userStore.createIndex("name", "name", { unique: false });
+      // userStore.createIndex("email", "email", { unique: true });
+      // userStore.createIndex("password", "password", { unique: false });
+      // userStore.createIndex("userType", "userType", { unique: false });
 
-      cartStore.createIndex("email", "email", { unique: true });
-      cartStore.createIndex("cart", "cart", { unique: false });
+      // cartStore.createIndex("email", "email", { unique: true });
+      // cartStore.createIndex("cart", "cart", { unique: false });
 
-      orderStore.createIndex("email", "email", { unique: true });
-      orderStore.createIndex("orderDetails", "orderDetails", {
-        unique: false,
-      });
+      // orderStore.createIndex("email", "email", { unique: true });
+      // orderStore.createIndex("orderDetails", "orderDetails", {
+      //   unique: false,
+      // });
 
-      offerStore.createIndex("idx", "idx", { unique: true });
-      offerStore.createIndex("offer", "offer", { unique: false });
+      // offerStore.createIndex("idx", "idx", { unique: true });
+      // offerStore.createIndex("offer", "offer", { unique: false });
 
-      categoryStore.createIndex("category", "category", { unique: true });
+      // categoryStore.createIndex("category", "category", { unique: true });
 
-      productStore.createIndex("category", "category", { unique: true });
-      productStore.createIndex("product", "product", { unique: false });
+      productsStore.createIndex("productId", "productId", { unique: true });
+      productsStore.createIndex("product", "product", { unique: false });
 
     };
   }
@@ -252,6 +252,7 @@ async function placeOrder(email, cart,userDetails,state,orderNo,totalAmt,orderDa
         console.log(orders.orderDetails.cart);
         localStorage.setItem("allOrders", JSON.stringify(orders.orderDetails));
         console.log(`Order Placed, email: ${updateRequest.result}`);
+        location.reload();
       };
     } else {
       console.log(cart);
@@ -434,12 +435,12 @@ async function addProduct(product,prevProduct){
    console.log(prevProduct);
   if (!db) return;
   if (prevProduct) {
-    deleteProduct(prevProduct.category);
+    deleteProduct(prevProduct.productId);
   }
   const objectStore = await db
-    .transaction("product", "readwrite")
-    .objectStore("product");
-  const addReq = objectStore.add({category:product.name+product.src,product});
+    .transaction("products", "readwrite")
+    .objectStore("products");
+  const addReq = objectStore.add({productId:Date.now(),product});
   addReq.onsuccess = () => {
     const res = addReq.result;
     if (res) {
@@ -460,8 +461,8 @@ async function addProduct(product,prevProduct){
 async function deleteProduct(idx) {
   if (!db) return;
   const objectStore = db
-    .transaction("product", "readwrite")
-    .objectStore("product");
+    .transaction("products", "readwrite")
+    .objectStore("products");
   const deleteReq = objectStore.delete(idx);
   deleteReq.onsuccess = () => {
     const allProducts = objectStore.getAll();
@@ -478,7 +479,7 @@ async function deleteProduct(idx) {
 // get all products
 function getAllProducts(){
    if (!db) return;
-   const req = db.transaction("product").objectStore("product").getAll();
+   const req = db.transaction("products").objectStore("products").getAll();
    req.onsuccess = () => {
      Products= req.result;
      if (localStorage.getItem("userType") !== null) {
@@ -562,7 +563,7 @@ function rejectOrder(idx,userIdx){
 
 const username=document.getElementById("username");
 let user=localStorage.getItem("authDetails");
-if(user){
+if(user && username){
   user=JSON.parse(user);
   username.innerHTML=`Hi ${user.name}!`;
 }

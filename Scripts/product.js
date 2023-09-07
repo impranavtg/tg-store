@@ -181,7 +181,7 @@ function displayProducts(){
             <td> ${product.product.category}</td>
             <td> ₹${product.product.price}</td>
             <td> <a href=${product.product.src}>${product.product.src.slice(0, 50)}</a></td>
-            <td><span id="edit-${i}" class="edit">Edit</span><td id="del-${i}" class="delete">Delete</td></td>
+            <td><span id="edit-${product.productId}" class="edit">Edit</span><td id="del-${product.productId}" class="delete">Delete</td></td>
             <tr>` + productItems.innerHTML;
                     i++;
                     flag=false;
@@ -201,17 +201,26 @@ function displayProducts(){
     }
 }
 
+
+
+
 if(products){
+  function getCurrProduct(idx){
+    for(let item of Products){
+      if(item.productId===idx)return item;
+    }
+  }
     products.addEventListener("click", (e) => {
       let id = e.target.id;
       if (id.length <= 0) return;
       if (e.target.nodeName === "SPAN" && id.substring(0, 4) === "edit") {
         let idx = parseInt(id.substring(5));
-        // let allEdits = document.querySelectorAll(".edit");
-        // for (let i = 0; i < allEdits.length; i++)
-        //   if (allEdits[i].textContent === "Cancel" && i != idx) {
-        //     allEdits[i].textContent = "Edit";
-        //   }
+        console.log(idx);
+        let allEdits = document.querySelectorAll(".edit");
+        for (let i = 0; i < allEdits.length; i++)
+          if (allEdits[i].textContent === "Cancel" && parseInt(allEdits[i].id.substring(5)) !== idx) {
+            allEdits[i].textContent = "Edit";
+          }
         const name = document.getElementById("name");
         const category = document.getElementById("product-category");
         const price = document.getElementById("price");
@@ -219,15 +228,20 @@ if(products){
         let opr = document.getElementById(id);
         // console.log(opr.textContent);
         if (opr.textContent === "Edit") {
-          if (idx >= Products.length) return;
-          name.value = Products[idx].product.name;
-          category.value = Products[idx].product.category;
-          price.value = Products[idx].product.price;
-          src.value = Products[idx].product.src;
+          const currProduct=getCurrProduct(idx);
+          // console.log(currProduct);
+          if(currProduct){
+            name.value = currProduct.product.name;
+          category.value = currProduct.product.category;
+          price.value = currProduct.product.price;
+          src.value = currProduct.product.src;
           let btn = document.getElementsByClassName("sendMessage")[0];
           btn.textContent = "Update Product";
           btn.id = `updateProduct-${idx}`;
           opr.textContent = "Cancel";
+          }
+          else return;
+          
         } else if (opr.textContent === "Cancel") {
           name.value = "";
           category.value = "";
@@ -242,8 +256,8 @@ if(products){
         let idx = parseInt(id.substring(4));
         let choice = confirm("Are you sure?");
         if (choice) {
-          if (idx >= Products.length) return;
-          deleteProduct(Products[idx].category);
+          const currProduct=getCurrProduct(idx);
+          if(currProduct)deleteProduct(currProduct.productId);
         } else return;
       }
     });
@@ -295,7 +309,7 @@ function displayCategories(){
       for (let item of Items) {
        categoryItems.innerHTML += `<tr class="trow">
             <td> ${item.category}</td>
-            <td><span id="edit-${item.category}" class="edit">Edit</span><td id="del-${item.category}" class="delete">Delete</td></td>
+            <td><span id="edit-${item.category}" class="editCtg">Edit</span><td id="del-${item.category}" class="delete">Delete</td></td>
             <tr>`;
       }
     }
@@ -308,7 +322,7 @@ if (categories) {
     if (id.length <= 0) return;
     if (e.target.nodeName === "SPAN" && id.substring(0, 4) === "edit") {
       let idx = id.substring(5);
-      let allEdits = document.querySelectorAll(".edit");
+      let allEdits = document.querySelectorAll(".editCtg");
       for (let i = 0; i < allEdits.length; i++)
         if (
           allEdits[i].textContent === "Cancel" &&

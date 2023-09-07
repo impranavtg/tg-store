@@ -400,6 +400,37 @@ nav .navInfo .navLinks.bold {
     font-weight: 700;
     cursor: pointer;
 }
+.NumberAnalysis{
+    margin-top: 100px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.smallBlocks{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    padding: 20px 10px;
+    border-radius: 5px;
+    background-color: white;
+    -moz-box-shadow: 0px 1px 5px 1px rgba(145, 142, 145, 1);
+    box-shadow: 0px 1px 5px 1px rgba(145, 142, 145, 1);
+}
+.blockHead{
+    /* border: 2px solid red; */
+    color: var(--background);
+    font-weight: 700;
+}
+.blockValue{
+    /* border: 2px solid red; */
+    text-align: center;
+    color: var(--sec);
+    font-size: 25px;
+    font-weight: 800;
+}
 .pending,.accepted,.rejected,.accept,.reject{
     border-top: 5px solid var(--sec);
     border-bottom: 5px solid var(--sec);
@@ -627,6 +658,64 @@ input::-webkit-inner-spin-button {
     -moz-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
 }
 
+body.modal-open {
+    height: 100vh;
+    overflow-y: hidden;
+    transition: 0.5s ease-in;
+  }
+
+.overlay{
+    position: fixed;
+    top: 0;
+    z-index: -1;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.showOverlay{
+    opacity: 1;
+    z-index: 1;
+}
+.modal{
+    /* width: 400px; */
+    background-color: white;
+    padding: 30px 20px;
+    font-size: 20px;
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
+    -webkit-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
+    -moz-box-shadow: 0px 2px 14px 1px rgba(0, 0, 0, 0.38);
+    transition: 1s ease-in-out;
+}
+.details{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.showModal{
+    top: 50%;
+    z-index: 2;
+}
+.modal span{
+    position: absolute;
+    top:0%;
+    right: 0%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 25px;
+    background-color: var(--sec);
+    transition: 0.5s ease-in;
+}
+.modal span:hover{
+    cursor: pointer;
+    background-color: #04bb50;
+    transition: 0.2s ease-in;
+}
 
 @media (min-width:240px) and (max-width:768px) {
 

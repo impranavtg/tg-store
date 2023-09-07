@@ -77,7 +77,7 @@ function displayPendingOrders() {
 if (pendingOrders) {
     pendingOrders.addEventListener("click", (e) => {
         const id = e.target.id;
-        const idx = parseInt(id.substring(7, id.indexOf('&')));
+        const idx = parseInt(id.substring(id.indexOf('-')+1, id.indexOf('&')));
         const userIdx = parseInt(id.substring(id.indexOf('&') + 1));
         if (userIdx >= Orders.length || idx >= Orders[userIdx].orderDetails.length) return;
 
@@ -94,6 +94,9 @@ if (pendingOrders) {
                 rejectOrder(idx, userIdx);
             }
             else return;
+        }
+        else if(e.target.nodeName==="SPAN" && id.substring(0,4)==="info"){
+            showModal(Orders[userIdx].orderDetails[idx].userDetails);
         }
     })
 }
@@ -159,6 +162,18 @@ function displayAcceptedOrders(){
     }
 }
 
+if(allOrders){
+    allOrders.addEventListener("click",(e)=>{
+        const id = e.target.id;
+        const idx = parseInt(id.substring(id.indexOf('-')+1, id.indexOf('&')));
+        const userIdx = parseInt(id.substring(id.indexOf('&') + 1));
+        if (userIdx >= Orders.length || idx >= Orders[userIdx].orderDetails.length) return;
+        if(e.target.nodeName==="SPAN" && id.substring(0,4)==="info"){
+            showModal(Orders[userIdx].orderDetails[idx].userDetails);
+        }
+    })
+}
+
 
 const rejectedOrders=document.getElementById("rejectedOrders");
 
@@ -193,7 +208,7 @@ function displayRejectedOrders(){
                         // let total = 0;
                         userOrder.cart.map((item) => {
                             orderItems.innerHTML += `<tr class="trow" id="${i}">
-                            ${idx++ === i ? `<td>#${userOrder.orderNo} <span class="info" id="info-${i}&${userIdx}">&#8505</span></td>` : `<td></td>`}
+                            ${idx++ === i ? `<td>#${userOrder.orderNo} <span class="info" id="info-${i}&${userIdx}" >&#8505</span></td>` : `<td></td>`}
                         <td> ${item.name}</td>
                         <td> ₹${item.price}</td>
                         <td><span class="val"> ${item.inCart}</td>
@@ -217,4 +232,34 @@ function displayRejectedOrders(){
             rejectedOrders.innerHTML = `<div class="noOrder"><h1 class="noOrder-heading">No Rejected Orders!! 😁😁</h1></div>`;
         }
     }
+}
+
+if(rejectedOrders){
+    rejectedOrders.addEventListener("click",(e)=>{
+        const id = e.target.id;
+        const idx = parseInt(id.substring(id.indexOf('-')+1, id.indexOf('&')));
+        const userIdx = parseInt(id.substring(id.indexOf('&') + 1));
+        if (userIdx >= Orders.length || idx >= Orders[userIdx].orderDetails.length) return;
+        if(e.target.nodeName==="SPAN" && id.substring(0,4)==="info"){
+            showModal(Orders[userIdx].orderDetails[idx].userDetails);
+        }
+    })
+}
+
+
+function showModal(info){
+    document.getElementById("CustomerName").innerHTML=info.name;
+    document.getElementById("CustomerNumber").innerHTML=info.number;
+    document.getElementById("CustomerState").innerHTML=info.state;
+    document.getElementById("CustomerCity").innerHTML=info.city;
+    document.getElementById("CustomerAddress").innerHTML=info.address;
+    document.querySelector('.overlay').classList.add('showOverlay');
+    document.querySelector('.modal').classList.add('showModal');
+
+    document.body.classList.add("modal-open");
+}
+function closeModal(){
+    document.querySelector('.overlay').classList.remove('showOverlay');
+    document.querySelector('.modal').classList.remove('showModal');
+    document.body.classList.remove("modal-open");
 }
