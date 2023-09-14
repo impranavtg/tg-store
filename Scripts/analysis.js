@@ -16,6 +16,9 @@ function displayAnalysis(){
     const OrderRejected=document.getElementById("OrderRejected");
     const OrderRevenue=document.getElementById("OrderRevenue");
     const OrderResponse=document.getElementById("OrderResponse");
+    const OrderValue=document.getElementById("OrderValue");
+
+
     let totalOrders=0;
     let accOrders=0;
     let rejOrders=0;
@@ -23,6 +26,9 @@ function displayAnalysis(){
     let totalRevenue=0;
     let responseTime=0;
     let avgResponseTime=0;
+    let totalCost=0;
+    let avgOrderValue=0;
+
     const Months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let categorySale={};
     const Category=Items.map(item=>item.category);
@@ -35,7 +41,9 @@ function displayAnalysis(){
         order.orderDetails.map((item)=>{
             let monthIdx=new Date(item.orderDate).getMonth();
             monthSale[monthIdx]++;
+            totalCost+=item.totalAmt;
             if(item.state==="accepted"){
+              
               accOrders++;
               totalRevenue+=item.totalAmt;
                 monthRevenue[monthIdx]+=item.totalAmt;
@@ -46,22 +54,28 @@ function displayAnalysis(){
                 responseTime+=minutesDiff(new Date(item.acceptDate),new Date(item.orderDate));            
             }
             else if(item.state==="rejected"){
+              
               responseTime+=minutesDiff(new Date(item.rejectDate),new Date(item.orderDate));
               rejOrders++;
             }
-            else if(item.state==="pending")penOrders++;
+            else if(item.state==="pending"){
+              
+              penOrders++;
+            }
            
         })
     }
 
-    avgResponseTime=(responseTime)/(accOrders+rejOrders);
-    
+    avgResponseTime=(accOrders+rejOrders)>0?(responseTime)/(accOrders+rejOrders):0;
+    avgOrderValue=(totalCost)/(totalOrders);
+
     OrderReceived.innerHTML=totalOrders.toLocaleString("en-US");
     OrderPending.innerHTML=penOrders.toLocaleString("en-US");
     OrderAccepted.innerHTML=accOrders.toLocaleString("en-US");
     OrderRejected.innerHTML=rejOrders.toLocaleString("en-US");
     OrderRevenue.innerHTML=`₹${totalRevenue.toLocaleString("en-US")}`;
     OrderResponse.innerHTML=avgResponseTime.toLocaleString("en-US");
+    OrderValue.innerHTML=avgOrderValue.toLocaleString("en-US");
     // console.log(categorySale);
     let categoryData=[];
     let catRevenueData=[];

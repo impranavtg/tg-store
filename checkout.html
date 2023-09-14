@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Css/style.css" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <title>TG Store</title>
+</head>
+<body>
+    <div class="checkout">
+    <a href="./cart.html" class="order"> &#8592; Back to cart</a>
+    <!-- order form -->
+  <section id="order-form">
+    <div class="head">
+      <h1 class="headings">Order Now</h1>
+    </div>
+    <div class="orderForm">
+      <form class="formContainer" onsubmit="return validateOrder(event)">
+        <div class="topForm">
+          <div class="errors name"> <input type="text" id="name" placeholder="Name" name="Name" required class="inputs" oninput="validateName('name')"><span class="err"></span></div>
+          <div class="errors number"><input type="number" id="number" placeholder="Contact Number" name="Number" required class="inputs" oninput="validateNumber('number')"><span class="err"></span></div>
+          
+        </div>
+        <div class="topForm" class="errors state-city">
+          <select name="errors state" onchange="restrictCities(event)" id="state" class="inputs" required>
+            <option value="">--Select State--</option>
+          </select>
+          <select name="errors city" id="city" class="inputs" required>
+            <option value="">--Select City--</option>
+          </select>
+        </div>
+        <div class="errors address"><textarea name="Address" id="address" cols="30" class="inputs address" rows="10" placeholder="Address"
+          required oninput="validateAddress('address')"></textarea><span class="err"></span></div>
+        
+        <Button type="submit" class="sendMessage">Place Order</Button>
+      </form>
+      <div id="summary" class="cartSummary empty">
+        <table class="cart">
+          <thead class="cartHeader">
+              <th class="name">Name</th>
+              <th class="price">Price</th>
+              <th class="quantity">Quantity</th>
+              <th class="total" colspan="2">Total</th>
+          </thead>
+          <tbody class="cartItems">
+          </tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+</div>
+  <script src="./Scripts/db.js"></script>
+  <script src="./Scripts/script.js"></script>
+</body>
+</html>

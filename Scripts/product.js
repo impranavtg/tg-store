@@ -4,146 +4,10 @@ if (
 ) {
   location.href = "auth.html";
 }
-// const Items = {
-//   sneakers: [
-//     {
-//       name: "Grey Sneakers",
-//       price: 1999,
-//       src: "./Images/offer-sneakers.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "White Sneakers",
-//       price: 1299,
-//       src: "./Images/white-sneakers.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Canvas Sneakers",
-//       price: 1499,
-//       src: "./Images/canvas-sneakers.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Air Jordan",
-//       price: 6999,
-//       src: "https://w7.pngwing.com/pngs/721/19/png-transparent-air-jordan-shoe-nike-sneakers-sneaker-collecting-michael-jordan-white-basketballschuh-outdoor-shoe-thumbnail.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Vans Old Skool",
-//       price: 2999,
-//       src: "https://w7.pngwing.com/pngs/499/173/png-transparent-skate-shoe-sneakers-vans-clothing-footwear-vans-oldskool-white-outdoor-shoe-sneakers-thumbnail.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Converse Chuck Taylor",
-//       price: 2799,
-//       src: "https://w7.pngwing.com/pngs/754/319/png-transparent-converse-chuck-taylor-all-stars-high-top-sneakers-maroon-sneaker-fashion-outdoor-shoe-adidas-thumbnail.png",
-//       inCart: 0,
-//     },
-//   ],
-//   jackets: [
-//     {
-//       name: "Red Varsity Jacket",
-//       price: 1799,
-//       src: "./Images/offer-jacket.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Blue Varsity Jacket",
-//       price: 1999,
-//       src: "./Images/blue-varsity.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Leather Jacket",
-//       price: 2499,
-//       src: "./Images/leather-jacket.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Bikers Jacket",
-//       price: 2199,
-//       src: "https://w7.pngwing.com/pngs/578/800/png-transparent-leather-jacket-sleeve-jacket-textile-leather-black-thumbnail.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Puffer Jacket",
-//       price: 1299,
-//       src: "https://w7.pngwing.com/pngs/626/150/png-transparent-jacket-polar-fleece-outerwear-the-north-face-coat-jacket-black-puffer-north-face-thumbnail.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Denim Jacket",
-//       price: 1499,
-//       src: "https://w7.pngwing.com/pngs/95/820/png-transparent-blue-denim-button-up-jacket-denim-levi-strauss-co-jacket-clothing-jeans-us-silk-straight-denim-jacket-cowboy-textile-material-thumbnail.png",
-//       inCart: 0,
-//     },
-//   ],
-//   shirts: [
-//     {
-//       name: "Floral Shirt",
-//       price: 799,
-//       src: "./Images/offer-shirts.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "White Shirt",
-//       price: 999,
-//       src: "./Images/white-shirt.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Checked Shirt",
-//       price: 499,
-//       src: "./Images/check-shirt.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Black Shirt",
-//       price: 1199,
-//       src: "https://w7.pngwing.com/pngs/9/1001/png-transparent-black-dress-shirt-t-shirt-dress-shirt-clothing-black-dress-shirt-tshirt-black-formal-wear-thumbnail.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Blue Shirt",
-//       price: 899,
-//       src: "https://w7.pngwing.com/pngs/972/557/png-transparent-blue-dress-shirt-t-shirt-dress-shirt-dress-shirt-tshirt-blue-image-file-formats-thumbnail.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Flannel Shirt",
-//       price: 1399,
-//       src: "https://w7.pngwing.com/pngs/395/177/png-transparent-t-shirt-sleeve-flannel-carhartt-t-shirt-blue-tartan-plaid-thumbnail.png",
-//       inCart: 0,
-//     },
-//   ],
-//   denims: [
-//     {
-//       name: "Light Blue Denim",
-//       price: 1199,
-//       src: "./Images/offer-denim.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Black Denim",
-//       price: 1499,
-//       src: "./Images/black-denim.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Dark Blue Denim",
-//       price: 1299,
-//       src: "./Images/dark-denim.png",
-//       inCart: 0,
-//     },
-//   ],
-// };
 
 function availableCategories() {
   let category = document.getElementById("product-category");
-//   console.log(Items);
+
   for (let ele of Items) {
     category.innerHTML += `<option value="${ele.category}" id="${ele.category}">${ele.category}</option>`;
   }
@@ -151,12 +15,16 @@ function availableCategories() {
 
 const products = document.getElementById("products");
 function displayProducts(){
+  let Products=localStorage.getItem("Products");
+  if(Products===null)return;
+  Products=JSON.parse(Products);
     if (products) {
       if (Products.length === 0) {
         products.innerHTML = `<div class="noOrder"><h1 class="noOrder-heading">No Products Available!! 👜👜</h1></div>`;
       } else {
              products.innerHTML = `<table class="product">
           <thead class="productHeader">
+          <th class="Srno">Product ID</th>
               <th class="name">Name</th>
               <th class="Category">Category</th>
               <th class="price">Price</th>
@@ -177,6 +45,7 @@ function displayProducts(){
             for(let product of Products){
                 if(product.product.category===item.category){
                     productItems.innerHTML = `<tr class="trow">
+                    <td>${product.productId}</td>
             <td> ${product.product.name}</td>
             <td> ${product.product.category}</td>
             <td> ₹${product.product.price}</td>
@@ -191,7 +60,7 @@ function displayProducts(){
             if(!flag){
                 productItems.innerHTML =
                   `<tr class="trow">
-            <td colspan="6" class="row-category"> ${item.category.toUpperCase()}</td>
+            <td colspan="7" class="row-category"> ${item.category.toUpperCase()}</td>
             <tr>` + productItems.innerHTML;
             }
                
@@ -226,10 +95,9 @@ if(products){
         const price = document.getElementById("price");
         const src = document.getElementById("imageUrl");
         let opr = document.getElementById(id);
-        // console.log(opr.textContent);
         if (opr.textContent === "Edit") {
           const currProduct=getCurrProduct(idx);
-          // console.log(currProduct);
+ 
           if(currProduct){
             name.value = currProduct.product.name;
           category.value = currProduct.product.category;

@@ -96,7 +96,7 @@ if (pendingOrders) {
             else return;
         }
         else if(e.target.nodeName==="SPAN" && id.substring(0,4)==="info"){
-            showModal(Orders[userIdx].orderDetails[idx].userDetails);
+            showModal(Orders[userIdx].orderDetails[idx].userDetails,Orders[userIdx].orderDetails[idx].orderNo,Orders[userIdx].email);
         }
     })
 }
@@ -169,7 +169,8 @@ if(allOrders){
         const userIdx = parseInt(id.substring(id.indexOf('&') + 1));
         if (userIdx >= Orders.length || idx >= Orders[userIdx].orderDetails.length) return;
         if(e.target.nodeName==="SPAN" && id.substring(0,4)==="info"){
-            showModal(Orders[userIdx].orderDetails[idx].userDetails);
+            // console.log(Orders[userIdx]);
+            showModal(Orders[userIdx].orderDetails[idx].userDetails,Orders[userIdx].orderDetails[idx].orderNo,Orders[userIdx].email);
         }
     })
 }
@@ -241,13 +242,15 @@ if(rejectedOrders){
         const userIdx = parseInt(id.substring(id.indexOf('&') + 1));
         if (userIdx >= Orders.length || idx >= Orders[userIdx].orderDetails.length) return;
         if(e.target.nodeName==="SPAN" && id.substring(0,4)==="info"){
-            showModal(Orders[userIdx].orderDetails[idx].userDetails);
+            showModal(Orders[userIdx].orderDetails[idx].userDetails,Orders[userIdx].orderDetails[idx].orderNo,Orders[userIdx].email);
         }
     })
 }
 
 
-function showModal(info){
+function showModal(info,orderNo,email){
+    document.getElementById("CustomerOrderId").innerHTML=`#${orderNo}`;
+    document.getElementById("CustomerEmail").innerHTML=email;
     document.getElementById("CustomerName").innerHTML=info.name;
     document.getElementById("CustomerNumber").innerHTML=info.number;
     document.getElementById("CustomerState").innerHTML=info.state;

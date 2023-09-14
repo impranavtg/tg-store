@@ -10,38 +10,12 @@ if (userType !== null) {
   }
 }
 
-// const Offers = [
-//   {
-//     heading: "Trendy Sneakers",
-//     tagline: "Shoes are Boring. Wear Sneakers.",
-//     category: "sneakers",
-//     src: "./Images/offer-sneakers.png",
-//   },
-//   {
-//     heading: "Varsity Jacket",
-//     tagline: "Jackets that make a statement.",
-//     category: "jackets",
-//     src: "./Images/offer-jacket.png",
-//   },
-//   {
-//     heading: "Summer Shirts",
-//     tagline: "Let the Sunlight Shine Through Your Clothes",
-//     category: "shirts",
-//     src: "./Images/offer-shirts.png",
-//   },
-//   {
-//     heading: "Denims",
-//     tagline: "Timeless elegance in every thread",
-//     category: "denims",
-//     src: "./Images/offer-denim.png",
-//   },
-// ];
 
 
 let UserOffers=localStorage.getItem("Offers");
 if(UserOffers!==null){
   UserOffers=JSON.parse(UserOffers);
-  console.log(UserOffers)
+  // console.log(UserOffers)
   let allOffers = document.getElementById("offer-container");
   if (allOffers) {
     UserOffers.map((offer, i) => {
@@ -164,149 +138,15 @@ function decreaseItem(product) {
     let val=document.getElementById(`val-${product}`);
     if(val)val.innerHTML=cartItems[i].inCart;
   }
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  if(cartItems.length>0)localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  else localStorage.removeItem("cartItems");
   onLoading();
   updateCartSummary(cartItems);
+  
 }
 
 
 
-// const Items = {
-//   sneakers: [
-//     {
-//       name: "Grey Sneakers",
-//       price: 1999,
-//       src: "./Images/offer-sneakers.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "White Sneakers",
-//       price: 1299,
-//       src: "./Images/white-sneakers.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Canvas Sneakers",
-//       price: 1499,
-//       src: "./Images/canvas-sneakers.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Air Jordan",
-//       price: 6999,
-//       src: "https://w7.pngwing.com/pngs/721/19/png-transparent-air-jordan-shoe-nike-sneakers-sneaker-collecting-michael-jordan-white-basketballschuh-outdoor-shoe-thumbnail.png",
-//       inCart: 0
-//     },
-//     {
-//       name: "Vans Old Skool",
-//       price: 2999,
-//       src: "https://w7.pngwing.com/pngs/499/173/png-transparent-skate-shoe-sneakers-vans-clothing-footwear-vans-oldskool-white-outdoor-shoe-sneakers-thumbnail.png",
-//       inCart: 0
-//     },
-//     {
-//       name: "Converse Chuck Taylor",
-//       price: 2799,
-//       src: "https://w7.pngwing.com/pngs/754/319/png-transparent-converse-chuck-taylor-all-stars-high-top-sneakers-maroon-sneaker-fashion-outdoor-shoe-adidas-thumbnail.png",
-//       inCart: 0
-//     }
-//   ],
-//   jackets: [
-//     {
-//       name: "Red Varsity Jacket",
-//       price: 1799,
-//       src: "./Images/offer-jacket.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Blue Varsity Jacket",
-//       price: 1999,
-//       src: "./Images/blue-varsity.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Leather Jacket",
-//       price: 2499,
-//       src: "./Images/leather-jacket.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Bikers Jacket",
-//       price: 2199,
-//       src: "https://w7.pngwing.com/pngs/578/800/png-transparent-leather-jacket-sleeve-jacket-textile-leather-black-thumbnail.png",
-//       inCart: 0
-//     },
-//     {
-//       name: "Puffer Jacket",
-//       price: 1299,
-//       src: "https://w7.pngwing.com/pngs/626/150/png-transparent-jacket-polar-fleece-outerwear-the-north-face-coat-jacket-black-puffer-north-face-thumbnail.png",
-//       inCart: 0
-//     },
-//     {
-//       name: "Denim Jacket",
-//       price: 1499,
-//       src: "https://w7.pngwing.com/pngs/95/820/png-transparent-blue-denim-button-up-jacket-denim-levi-strauss-co-jacket-clothing-jeans-us-silk-straight-denim-jacket-cowboy-textile-material-thumbnail.png",
-//       inCart: 0
-//     }
-//   ],
-//   shirts: [
-//     {
-//       name: "Floral Shirt",
-//       price: 799,
-//       src: "./Images/offer-shirts.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "White Shirt",
-//       price: 999,
-//       src: "./Images/white-shirt.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Checked Shirt",
-//       price: 499,
-//       src: "./Images/check-shirt.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Black Shirt",
-//       price: 1199,
-//       src: "https://w7.pngwing.com/pngs/9/1001/png-transparent-black-dress-shirt-t-shirt-dress-shirt-clothing-black-dress-shirt-tshirt-black-formal-wear-thumbnail.png",
-//       inCart: 0
-//     },
-//     {
-//       name: "Blue Shirt",
-//       price: 899,
-//       src: "https://w7.pngwing.com/pngs/972/557/png-transparent-blue-dress-shirt-t-shirt-dress-shirt-dress-shirt-tshirt-blue-image-file-formats-thumbnail.png",
-//       inCart: 0
-//     },
-//     {
-//       name: "Flannel Shirt",
-//       price: 1399,
-//       src: "https://w7.pngwing.com/pngs/395/177/png-transparent-t-shirt-sleeve-flannel-carhartt-t-shirt-blue-tartan-plaid-thumbnail.png",
-//       inCart: 0
-//     }
-//   ],
-//   denims: [
-//     {
-//       name: "Light Blue Denim",
-//       price: 1199,
-//       src: "./Images/offer-denim.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Black Denim",
-//       price: 1499,
-//       src: "./Images/black-denim.png",
-//       inCart: 0,
-//     },
-//     {
-//       name: "Dark Blue Denim",
-//       price: 1299,
-//       src: "./Images/dark-denim.png",
-//       inCart: 0,
-//     }
-//   ],
-// }
 
 
 const UserProducts={};
@@ -489,14 +329,18 @@ const setItems = (item, prod) => {
 
 const onLoading = () => {
   let cartItems = localStorage.getItem("cartItems");
+  let cartEle = document.querySelector("#cart span");
+  
   if (cartItems) {
     cartItems = JSON.parse(cartItems);
     let cartNo = 0;
     for (let i = 0; i < cartItems.length; i++) {
       cartNo += parseInt(cartItems[i].inCart);
     }
-    let cartEle = document.querySelector("#cart span");
     if (cartEle) cartEle.textContent = cartNo;
+  }
+  else {
+    if (cartEle) cartEle.textContent = 0;
   }
 }
 onLoading();
@@ -1837,6 +1681,42 @@ function removeError(cls) {
 }
 
 
+function validateName(id){
+  const name = document.getElementById("name").value.trim();
+  let nameRegex = /^[A-Za-z\s]+$/;
+  if (!nameRegex.test(name) || name.length < 3) {
+    showError(id, "Enter a valid Name!");
+    return false;
+  }
+  else removeError(id);
+  return true;
+}
+
+
+function validateNumber(id){
+  const number=document.getElementById("number").value;
+  let numberRegex=/^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})$/;
+  if(!numberRegex.test(number)){
+    showError(id,"Enter a valid Number!");
+    return false;
+  }
+  else removeError(id);
+  return true;
+}
+
+
+function validateAddress(id){
+  const address = document.getElementById("address").value.trim();
+  if (address.length < 3) {
+    showError(id, "Enter a valid Address!");
+    return false;
+  }
+  else removeError(id);
+  return true;
+}
+
+
+
 function validateOrder(e) {
   e.preventDefault();
   removeErrors("err");
@@ -1846,18 +1726,19 @@ function validateOrder(e) {
   const city = document.getElementById("city").value;
   const address = document.getElementById("address").value.trim();
   let flag = true;
-  let nameRegex = /^[A-Za-z\s]+$/;
-  if (!nameRegex.test(name) || name.length < 3) {
+
+
+  if(!validateName("name")){
     showError("name", "Enter a valid Name!");
     flag = false;
   }
-  if (number.length != 10) {
+  if(!validateNumber("number")){
     showError("number", "Enter a valid Number!");
     flag = false;
   }
-  if (address.length < 3) {
+  if(!validateAddress("address")){
     showError("address", "Enter a valid Address!");
-    flag = false;
+      flag = false;
   }
   if (state === "" || city === "") {
     const message = (state === "" && city === "") ? "Please Select State and City" : (state === "" && city !== "") ? "Please Select State" : "Please Select City";
@@ -1877,7 +1758,7 @@ function validateOrder(e) {
       const orderNo=Date.now();
       const orderDetails={name,number,state,city,address};
       let totalAmt=0;
-      for(let item of cartItems)totalAmt+=parseInt(item.price);
+      for(let item of cartItems)totalAmt+=parseInt(item.inCart)*parseInt(item.price);
       removeErrors("err");
       placeOrder(email, cartItems,orderDetails,"pending",orderNo,totalAmt,orderNo,null,null);
       document.getElementById("name").value="";

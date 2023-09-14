@@ -385,7 +385,7 @@ nav .navInfo .navLinks.bold {
     color:red;
 }
 
-.edit{
+.edit,.editCtg{
     color:var(--sec);
         font-size: 16px;
         font-weight: 700;
@@ -405,6 +405,8 @@ nav .navInfo .navLinks.bold {
     padding: 20px;
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 .smallBlocks{
     display: flex;
@@ -423,6 +425,7 @@ nav .navInfo .navLinks.bold {
     /* border: 2px solid red; */
     color: var(--background);
     font-weight: 700;
+    text-align: center;
 }
 .blockValue{
     /* border: 2px solid red; */
@@ -582,9 +585,10 @@ td {
     resize: none;
 }
 .errors{
+    /* border: 2px solid red; */
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 .err{
@@ -678,7 +682,7 @@ body.modal-open {
     z-index: 1;
 }
 .modal{
-    /* width: 400px; */
+    width: 40vw;
     background-color: white;
     padding: 30px 20px;
     font-size: 20px;
@@ -715,6 +719,10 @@ body.modal-open {
     cursor: pointer;
     background-color: #04bb50;
     transition: 0.2s ease-in;
+}
+
+.checkout{
+    padding: 20px 0;
 }
 
 @media (min-width:240px) and (max-width:768px) {

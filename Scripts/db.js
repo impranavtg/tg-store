@@ -5,7 +5,7 @@ var Products;
 var Orders;
 if ("indexedDB" in window) {
   function connectToDb() {
-    const req = indexedDB.open("myDB",5);
+    const req = indexedDB.open("myDB");
     req.onerror = function () {
       console.log("Some error Occurred:");
     };
@@ -20,30 +20,30 @@ if ("indexedDB" in window) {
     req.onupgradeneeded = function () {
       console.info("DB updated");
       db = req.result;
-      // const userStore = db.createObjectStore("users", { keyPath: "email" });
-      // const cartStore = db.createObjectStore("userCart", { keyPath: "email" });
-      // const orderStore = db.createObjectStore("order", { keyPath: "email" });
-      // const offerStore = db.createObjectStore("offer", { keyPath: "idx" });
-      // const categoryStore = db.createObjectStore("category", { keyPath: "category" });
+      const userStore = db.createObjectStore("users", { keyPath: "email" });
+      const cartStore = db.createObjectStore("userCart", { keyPath: "email" });
+      const orderStore = db.createObjectStore("order", { keyPath: "email" });
+      const offerStore = db.createObjectStore("offer", { keyPath: "idx" });
+      const categoryStore = db.createObjectStore("category", { keyPath: "category" });
       const productsStore = db.createObjectStore("products", { keyPath: "productId" });
 
-      // userStore.createIndex("name", "name", { unique: false });
-      // userStore.createIndex("email", "email", { unique: true });
-      // userStore.createIndex("password", "password", { unique: false });
-      // userStore.createIndex("userType", "userType", { unique: false });
+      userStore.createIndex("name", "name", { unique: false });
+      userStore.createIndex("email", "email", { unique: true });
+      userStore.createIndex("password", "password", { unique: false });
+      userStore.createIndex("userType", "userType", { unique: false });
 
-      // cartStore.createIndex("email", "email", { unique: true });
-      // cartStore.createIndex("cart", "cart", { unique: false });
+      cartStore.createIndex("email", "email", { unique: true });
+      cartStore.createIndex("cart", "cart", { unique: false });
 
-      // orderStore.createIndex("email", "email", { unique: true });
-      // orderStore.createIndex("orderDetails", "orderDetails", {
-      //   unique: false,
-      // });
+      orderStore.createIndex("email", "email", { unique: true });
+      orderStore.createIndex("orderDetails", "orderDetails", {
+        unique: false,
+      });
 
-      // offerStore.createIndex("idx", "idx", { unique: true });
-      // offerStore.createIndex("offer", "offer", { unique: false });
+      offerStore.createIndex("idx", "idx", { unique: true });
+      offerStore.createIndex("offer", "offer", { unique: false });
 
-      // categoryStore.createIndex("category", "category", { unique: true });
+      categoryStore.createIndex("category", "category", { unique: true });
 
       productsStore.createIndex("productId", "productId", { unique: true });
       productsStore.createIndex("product", "product", { unique: false });
@@ -252,7 +252,7 @@ async function placeOrder(email, cart,userDetails,state,orderNo,totalAmt,orderDa
         console.log(orders.orderDetails.cart);
         localStorage.setItem("allOrders", JSON.stringify(orders.orderDetails));
         console.log(`Order Placed, email: ${updateRequest.result}`);
-        location.reload();
+        location.href="./index.html";
       };
     } else {
       console.log(cart);
@@ -360,6 +360,7 @@ async function addCategory(category, prevCategory) {
       const allCategories = objectStore.getAll();
       allCategories.onsuccess = () => {
         Items = allCategories.result;
+        localStorage.setItem("Items",JSON.stringify(allCategories.result));
         location.reload();
       };
     }
@@ -381,7 +382,9 @@ async function deleteCategory(idx) {
     const allCategories = objectStore.getAll();
     allCategories.onsuccess = () => {
       Items = allCategories.result;
+      localStorage.setItem("Items",JSON.stringify(allCategories.result));
       deleteProductsOfCategory(idx);
+      deleteOffersOfCategory(idx);
       location.reload();
     };
   };
@@ -390,15 +393,36 @@ async function deleteCategory(idx) {
   };
 }
 
+// delete all products of a particular category
+
 async function deleteProductsOfCategory(category){
   if (!db) return;
-   const req = db.transaction("product").objectStore("product").getAll();
+   const req = db.transaction("products").objectStore("products").getAll();
    req.onsuccess = () => {
      const result=req.result;
      console.log(result);
      for(let item of result){
       if(item.product.category===category){
-        deleteProduct(item.category);
+        deleteProduct(item.productId);
+      }
+     }
+    };
+    req.onerror = () => {
+      console.log("Some Error Occurred!");
+    };
+}
+
+// delete all offers of a particular category
+
+async function deleteOffersOfCategory(category){
+  if (!db) return;
+   const req = db.transaction("offer").objectStore("offer").getAll();
+   req.onsuccess = () => {
+     const result=req.result;
+     console.log(result);
+     for(let item of result){
+      if(item.offer.category===category){
+        deleteOffer(item.idx);
       }
      }
     };
@@ -447,6 +471,7 @@ async function addProduct(product,prevProduct){
       const allProducts = objectStore.getAll();
       allProducts.onsuccess = () => {
         Products = allProducts.result;
+        localStorage.setItem("Products",JSON.stringify(allProducts.result));
         location.reload();
       };
     }
@@ -468,6 +493,7 @@ async function deleteProduct(idx) {
     const allProducts = objectStore.getAll();
     allProducts.onsuccess = () => {
       Products = allProducts.result;
+      localStorage.setItem("Products",JSON.stringify(allProducts.result));
       location.reload();
     };
   };

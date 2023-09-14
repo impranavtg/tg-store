@@ -128,7 +128,12 @@ if (cartItems) {
 }
 
 
-
+function goToCheckout(e){
+  if(localStorage.getItem("cartItems")===null){
+    alert("Cart is Empty");
+    e.target.href="./cart.html"
+  }
+}
 
 
 const clearAll = () => {
